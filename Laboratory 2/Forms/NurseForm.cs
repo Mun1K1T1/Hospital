@@ -12,6 +12,11 @@ namespace Laboratory_2
 {
     public partial class NurseForm : MaterialForm
     {
+        readonly FileOperations fileOperations = new FileOperations();
+        readonly DataHelper dataHelper = new DataHelper();
+
+        //------------------------------------------------------------------------------------------
+
         public NurseForm()
         {
             InitializeComponent();
@@ -27,145 +32,56 @@ namespace Laboratory_2
                 );
         }
 
-        public static string patientSubPath = @"C:\\DataBase\PatientData\";
-        public static string treatSubPath = @"C:\\DataBase\TreatmentData\";
-
-        readonly FileOperations fileOperations = new FileOperations();
         //------------------------------------------------------------------------------------------
-        private void AddItemsPatientsListview(/*string patAdress*/)
+
+        private async void NurseForm_Load(object sender, EventArgs e)
         {
-            //string[] names = fileOperations.GetPatientsNames(fileOperations.FindPatientsFiles(patAdress));
-            //for (int i = 0; i < names.Length; i++) PatientsListBox.Items.Add(names[i]);
             try
             {
-                var context = new DBApplicationContext();
-                    var query = from patient in context.Patients
-                                orderby patient.FirstName ascending
-                                select new { patient.FirstName, patient.SecondName };
-                    foreach (var patient in query) PatientsListBox.Items.Add(patient.FirstName + " " + patient.SecondName);
+                NurNameTbx.Text = await fileOperations.ReadTempJson();
+                dataHelper.AddNurseKeyToTheForm(NurNameTbx, Nurse_Key);
+                fileOperations.ClearTempDir();
+                dataHelper.AddItemsPatientsListview(PatientsListBox);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error occurred - \n" + ex);
             }
-        }
-
-        //------------------------------------------------------------------------------------------
-        private void DeletePatient()
-        {
-                try
-                {
-                    try
-                    {
-                        var context = new DBApplicationContext();
-                        var preExPatient = Repository<EPatient>
-                            .GetRepo(context)
-                            .GetFirst(patient => patient.FirstName + patient.SecondName == PatientFirstNameTxb.Text + PatientSecNameTxb.Text);
-                        if (preExPatient != null)
-                        {
-                            Guid patGuid = preExPatient.Key;
-                            Repository<EPatient>
-                                .GetRepo(context)
-                                .Delete(patGuid);
-                            MessageBox.Show("Patient was deleted!");
-                        }
-                        try
-                        {
-                            var preExTreatment = Repository<ETreatment>
-                                .GetRepo(context)
-                                .GetFirst(treatment => treatment.PatientFirstName + treatment.PatientSecondName == PatientFirstNameTxb.Text + PatientSecNameTxb.Text);
-                            if (preExTreatment != null)
-                            {
-                                Guid treatGuid = preExTreatment.Key;
-                                Repository<ETreatment>
-                                    .GetRepo(context)
-                                    .Delete(treatGuid);
-                                MessageBox.Show("Patient's treatment was deleted!");
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Failed to delete patient's treatment - \n" + ex);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Failed to delete patient - \n" + ex);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error occurred - \n" + ex);
-                }
-        }
-
-        public async Task<string> TreatmentTextAcquire()
-        {
-            using (var context = new DBApplicationContext())
-            {
-                var query = from treatment in context.Treatments
-                            where treatment.PatientFirstName == PatientFirstNameTxb.Text
-                            where treatment.PatientSecondName == PatientSecNameTxb.Text
-                            select new { treatment.TreatmentContent };
-
-                var foundTretment = await query.FirstOrDefaultAsync();
-                if (foundTretment != null)
-                {
-                    return foundTretment.TreatmentContent;
-                }
-                else
-                {
-                    return "No treatment found";
-                }
-            }
-            //return query.FirstOrDefault()?.TreatmentContent;
-        }
-
-        private async void NurseForm_Load(object sender, EventArgs e)
-        {
-            NurNameTbx.Text = await fileOperations.ReadTempJson();
-            await fileOperations.ClearTempDir();
-            AddItemsPatientsListview();
         }
 
         private async void PatientsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string patientFullName = PatientsListBox.SelectedItem.ToString();
-            string[] patientNameElements = patientFullName.Split(' ');
-            PatientFirstNameTxb.Text = patientNameElements[0];
-            PatientSecNameTxb.Text = patientNameElements[1];
-
-            TreatmentTxtBx.Clear();
-
-            string treatmentText = await TreatmentTextAcquire();
-            if (treatmentText != null) TreatmentTxtBx.AppendText(treatmentText);
-            else TreatmentTxtBx.Text = "No content available";
-            //string[] treatmentContext = fileOperations.FillTheTreatment(treatSubPath, patientNameElements[0], patientNameElements[1]);
-            //if (treatmentContext != null)
-            //{
-            //    foreach (string element in treatmentContext)
-            //    {
-            //        TreatmentTxtBx.AppendText(element + Environment.NewLine);
-            //    }
-            //}
-            //else
-            //{
-            //    TreatmentTxtBx.Text = "No treatment content available.";
-            //}
-
-
-
-        }
-
-        private void MaterialFlatButton2_Click(object sender, EventArgs e)
-        {
-            //fileOperations.DischargePatient(patientSubPath, treatSubPath, PatientFirstNameTxb.Text, PatientSecNameTxb.Text);
             try
             {
-                DeletePatient();
+                if (PatientsListBox.SelectedItem != null)
+                {
+                    string patientFullName = PatientsListBox.SelectedItem.ToString();
+                    string[] patientNameElements = patientFullName.Split(' ');
+                    PatientFirstNameTxb.Text = patientNameElements[0];
+                    PatientSecNameTxb.Text = patientNameElements[1];
+                    Patient_Key.Text = patientNameElements[2];
+                }
+
+                TreatmentTxtBx.Clear();
+
+                string treatmentText = await dataHelper.TreatmentTextAcquire(PatientFirstNameTxb, PatientSecNameTxb);
+                if (treatmentText != null) TreatmentTxtBx.AppendText(treatmentText);
+                else TreatmentTxtBx.Text = "No content available";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error occurred - \n" + ex);
+            }
+        }
+
+        private void PerformBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                dataHelper.DeletePatient(PatientFirstNameTxb, PatientSecNameTxb);
                 PatientsListBox.Items.Clear();
                 TreatmentTxtBx.Text = String.Empty;
-                AddItemsPatientsListview();
+                dataHelper.AddItemsPatientsListview(PatientsListBox);
             }
             catch (Exception ex)
             {
@@ -174,15 +90,14 @@ namespace Laboratory_2
 
         }
 
-        private void MaterialFlatButton1_Click(object sender, EventArgs e)
+        private void DischargeBtn_Click(object sender, EventArgs e)
         {
-            //fileOperations.PerformTreatment(patientSubPath, treatSubPath, PatientFirstNameTxb.Text, PatientSecNameTxb.Text);
             try
             {
-                DeletePatient();
+                dataHelper.DeletePatient(PatientFirstNameTxb, PatientSecNameTxb);
                 PatientsListBox.Items.Clear();
                 TreatmentTxtBx.Text = String.Empty;
-                AddItemsPatientsListview();
+                dataHelper.AddItemsPatientsListview(PatientsListBox);
             }
             catch (Exception ex)
             {
@@ -192,8 +107,8 @@ namespace Laboratory_2
 
         private void BackBtn_Click(object sender, EventArgs e)
         {
-                Close();
-                MainPage.form1Main.Show();
+            Close();
+            MainPage.form1Main.Show();
         }
     }
 }

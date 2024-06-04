@@ -3,7 +3,6 @@ using Laboratory_2.Repositories;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Laboratory_2.Forms
@@ -13,32 +12,7 @@ namespace Laboratory_2.Forms
         public const string docSubPath = @"C:\\DataBase\DocData\";
 
         readonly FileOperations fileOperations = new FileOperations();
-
-        public async Task CloseAndOpen()
-        {
-            await fileOperations.DocTempFileCreation(FirstNameTxtBox.Text, SecondNameTxtBox.Text);
-            Close();
-            var doctorForm = new DoctorForm();
-            doctorForm.ShowDialog();
-        }
-
-        public async Task OnPlaceDoctorCreation(DBApplicationContext dBApplicationContext, EDoctor newEDoctor)
-        {
-            try
-            {
-                Repository<EDoctor>
-                    .GetRepo(dBApplicationContext)
-                    .Create(newEDoctor);
-                MessageBox.Show("Success!");
-
-                await CloseAndOpen();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error occurred: " + ex.ToString());
-                return;
-            }
-        }
+        readonly DataHelper dataHelper = new DataHelper();
 
         public AuthorizationDoctor()
         {
@@ -62,14 +36,12 @@ namespace Laboratory_2.Forms
 
         private void BackBtn_Click(object sender, EventArgs e)
         {
-                Hide();
-                MainPage.form1Main.Show();
+            Hide();
+            MainPage.form1Main.Show();
         }
 
         private async void SignBtn_Click(object sender, EventArgs e)
         {
-            //    JSON PART
-            //fileOperations.DoctorRegistrationFileCreation(docSubPath, IdTxtBox.Text, FirstNameTxtBox.Text, SecondNameTxtBox.Text);
             try
             {
                 var context = new DBApplicationContext();
@@ -87,13 +59,13 @@ namespace Laboratory_2.Forms
                             .GetFirst(doctor => doctor.Id == Convert.ToInt32(IdTxtBox.Text));
 
                         MessageBox.Show($"Congratulations!\n" + newPreExDoctor.SecondName + " " + newPreExDoctor.FirstName + " managed to sing in!");
-                        await CloseAndOpen();
+                        await fileOperations.CloseAndOpenDoctor(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                     }
                     else return;
                 }
                 else
                 {
-                    await OnPlaceDoctorCreation(context, newDoctor);
+                    await dataHelper.OnPlaceDoctorCreation(context, newDoctor, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                 }
             }
             catch (Exception ex)
@@ -104,11 +76,6 @@ namespace Laboratory_2.Forms
 
         private async void LogBtn_Click(object sender, EventArgs e)
         {
-            //fileOperations.CheckFileForExsistence(docSubPath, IdTxtBox.Text, FirstNameTxtBox.Text, SecondNameTxtBox.Text);
-            //if (fileOperations.CheckIfGetToGo() == true)
-            //{
-            //    
-            //}
             try
             {
                 var context = new DBApplicationContext();
@@ -121,14 +88,14 @@ namespace Laboratory_2.Forms
                     && (preExDoctor.Id == Convert.ToInt32(IdTxtBox.Text)))
                 {
                     MessageBox.Show($"Congratulations!\n" + preExDoctor.SecondName + " " + preExDoctor.FirstName + " managed to sing in!");
-                    await CloseAndOpen();
+                    await fileOperations.CloseAndOpenDoctor(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                 }
                 else
                 {
                     var msBoxResult = MessageBox.Show("Would you like to sign up?", "Such patient doesn't exist!", MessageBoxButtons.OKCancel);
                     if (msBoxResult == DialogResult.OK)
                     {
-                        await OnPlaceDoctorCreation(context, newDoctor);
+                        await dataHelper.OnPlaceDoctorCreation(context, newDoctor, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                     }
                     else return;
                 }

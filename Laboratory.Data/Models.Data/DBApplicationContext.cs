@@ -14,7 +14,6 @@ namespace Laboratory_2.Data.Models.Data
 
         public DBApplicationContext()
         {
-            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

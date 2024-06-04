@@ -3,9 +3,6 @@ using Laboratory_2.Repositories;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
-using System.Runtime.Remoting.Contexts;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Laboratory_2.Forms
@@ -15,34 +12,7 @@ namespace Laboratory_2.Forms
         public const string patientSubPath = @"C:\\DataBase\PatientData\";
 
         readonly FileOperations fileOperations = new FileOperations();
-
-        public async Task CloseAndOpen()
-        {
-            await fileOperations.PatTempFileCreation(FirstNameTxtBox.Text, SecondNameTxtBox.Text);
-            Close();
-            var patientForm = new PatientForm();
-            patientForm.ShowDialog();
-        }
-
-        public async Task OnPlacePatientCreation(DBApplicationContext dBApplicationContext, EPatient newEPatient)
-        {
-            try
-            {
-                Repository<EPatient>
-                    .GetRepo(dBApplicationContext)
-                    .Create(newEPatient);
-                MessageBox.Show("Success!");
-
-                await CloseAndOpen();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error occurred: " +  ex.ToString());
-                return;
-            }
-        }
-
-        //FileOperations fileOperations = new FileOperations();
+        readonly DataHelper dataHelper = new DataHelper();
         public AuthorizationPatient()
         {
             InitializeComponent();
@@ -65,18 +35,14 @@ namespace Laboratory_2.Forms
 
         private void BackBtn_Click(object sender, EventArgs e)
         {
-                Hide();
-                MainPage.form1Main.Show();
+            Hide();
+            MainPage.form1Main.Show();
         }
 
         private async void SignBtn_Click(object sender, EventArgs e)
         {
             try
-            {   
-                //    JSON PART
-                //fileOperations.PatientRegistrationFileCreation(patientSubPath, IdTxtBox.Text, FirstNameTxtBox.Text, SecondNameTxtBox.Text);
-                //
-
+            {
                 var context = new DBApplicationContext();
                 var newPatient = new EPatient(Convert.ToInt32(IdTxtBox.Text), FirstNameTxtBox.Text, SecondNameTxtBox.Text);
                 var preExPatient = Repository<EPatient>
@@ -92,13 +58,13 @@ namespace Laboratory_2.Forms
                             .GetFirst(patient => patient.Id == Convert.ToInt32(IdTxtBox.Text));
 
                         MessageBox.Show($"Congratulations!\n" + newPreExPatient.SecondName + " " + preExPatient.FirstName + " managed to sing in!");
-                        await CloseAndOpen();
-                        }
+                        await fileOperations.CloseAndOpenPatient(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    }
                     else return;
                 }
                 else
                 {
-                    await OnPlacePatientCreation(context, newPatient);
+                    await dataHelper.OnPlacePatientCreation(context, newPatient, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                 }
             }
             catch (Exception ex)
@@ -111,29 +77,24 @@ namespace Laboratory_2.Forms
         {
             try
             {
-                //fileOperations.CheckFileForExsistence(patientSubPath, IdTxtBox.Text, FirstNameTxtBox.Text, SecondNameTxtBox.Text);
-                //if (fileOperations.CheckIfGetToGo() == true)
-                //{
-                //}
-
                 var context = new DBApplicationContext();
                 var newPatient = new EPatient(Convert.ToInt32(IdTxtBox.Text), FirstNameTxtBox.Text, SecondNameTxtBox.Text);
                 var preExPatient = Repository<EPatient>
                     .GetRepo(context)
                     .GetFirst(patient => patient.Id == Convert.ToInt32(IdTxtBox.Text));
 
-                if((preExPatient != null) && (preExPatient.FirstName == FirstNameTxtBox.Text) && (preExPatient.SecondName == SecondNameTxtBox.Text) 
+                if ((preExPatient != null) && (preExPatient.FirstName == FirstNameTxtBox.Text) && (preExPatient.SecondName == SecondNameTxtBox.Text)
                     && (preExPatient.Id == Convert.ToInt32(IdTxtBox.Text)))
                 {
-                    MessageBox.Show($"Congratulations!\n" + preExPatient.SecondName + " " + preExPatient.FirstName +" managed to sing in!");
-                    await CloseAndOpen();
+                    MessageBox.Show($"Congratulations!\n" + preExPatient.SecondName + " " + preExPatient.FirstName + " managed to sing in!");
+                    await fileOperations.CloseAndOpenPatient(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                 }
                 else
                 {
                     var msBoxResult = MessageBox.Show("Would you like to sign up?", "Such patient doesn't exist!", MessageBoxButtons.OKCancel);
                     if (msBoxResult == DialogResult.OK)
                     {
-                        await OnPlacePatientCreation(context, newPatient);
+                        await dataHelper.OnPlacePatientCreation(context, newPatient, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                     }
                     else return;
                 }

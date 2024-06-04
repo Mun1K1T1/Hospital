@@ -8,17 +8,11 @@ namespace Laboratory_2
 {
     public partial class MainPage : MaterialForm
     {
-        public const string directPath = @"C:\\DataBase";
-        public const string patientSubPath = @"C:\\DataBase\PatientData\";
-        public const string docSubPath = @"C:\\DataBase\DocData\";
-        public const string nurseSubPath = @"C:\\DataBase\NurseData\";
-        public const string treatSubPath = @"C:\\DataBase\TreatmentData\";
-        public const string tempSubPath = @"C:\\DataBase\TempData\";
-
-        //------------------------------------------------------------------------------------------
         readonly FileOperations fileOperations = new FileOperations();
-        //##########################################################################################
         public static MainPage form1Main = new MainPage();
+        
+        //------------------------------------------------------------------------------------------
+
         public MainPage()
         {
             InitializeComponent();

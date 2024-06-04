@@ -42,6 +42,8 @@
             this.PerformBtn = new MaterialSkin.Controls.MaterialFlatButton();
             this.DischargeBtn = new MaterialSkin.Controls.MaterialFlatButton();
             this.BackBtn = new MaterialSkin.Controls.MaterialFlatButton();
+            this.Patient_Key = new MaterialSkin.Controls.MaterialLabel();
+            this.Nurse_Key = new MaterialSkin.Controls.MaterialLabel();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,11 +70,11 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(55, 8);
+            this.label3.Location = new System.Drawing.Point(89, 8);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(117, 16);
+            this.label3.Size = new System.Drawing.Size(58, 16);
             this.label3.TabIndex = 18;
-            this.label3.Text = "Write treatment for:";
+            this.label3.Text = "Patients:";
             // 
             // label5
             // 
@@ -161,7 +163,7 @@
             this.PerformBtn.TabIndex = 27;
             this.PerformBtn.Text = "Perform";
             this.PerformBtn.UseVisualStyleBackColor = true;
-            this.PerformBtn.Click += new System.EventHandler(this.MaterialFlatButton1_Click);
+            this.PerformBtn.Click += new System.EventHandler(this.PerformBtn_Click);
             // 
             // DischargeBtn
             // 
@@ -178,7 +180,7 @@
             this.DischargeBtn.TabIndex = 28;
             this.DischargeBtn.Text = "Discharge";
             this.DischargeBtn.UseVisualStyleBackColor = true;
-            this.DischargeBtn.Click += new System.EventHandler(this.MaterialFlatButton2_Click);
+            this.DischargeBtn.Click += new System.EventHandler(this.DischargeBtn_Click);
             // 
             // BackBtn
             // 
@@ -198,11 +200,41 @@
             this.BackBtn.UseVisualStyleBackColor = true;
             this.BackBtn.Click += new System.EventHandler(this.BackBtn_Click);
             // 
+            // Patient_Key
+            // 
+            this.Patient_Key.AutoSize = true;
+            this.Patient_Key.Depth = 0;
+            this.Patient_Key.Font = new System.Drawing.Font("Roboto", 11F);
+            this.Patient_Key.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.Patient_Key.Location = new System.Drawing.Point(364, 416);
+            this.Patient_Key.MouseState = MaterialSkin.MouseState.HOVER;
+            this.Patient_Key.Name = "Patient_Key";
+            this.Patient_Key.Size = new System.Drawing.Size(69, 24);
+            this.Patient_Key.TabIndex = 35;
+            this.Patient_Key.Text = "PatKey";
+            this.Patient_Key.Visible = false;
+            // 
+            // Nurse_Key
+            // 
+            this.Nurse_Key.AutoSize = true;
+            this.Nurse_Key.Depth = 0;
+            this.Nurse_Key.Font = new System.Drawing.Font("Roboto", 11F);
+            this.Nurse_Key.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.Nurse_Key.Location = new System.Drawing.Point(669, 416);
+            this.Nurse_Key.MouseState = MaterialSkin.MouseState.HOVER;
+            this.Nurse_Key.Name = "Nurse_Key";
+            this.Nurse_Key.Size = new System.Drawing.Size(71, 24);
+            this.Nurse_Key.TabIndex = 34;
+            this.Nurse_Key.Text = "NurKey";
+            this.Nurse_Key.Visible = false;
+            // 
             // NurseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.Patient_Key);
+            this.Controls.Add(this.Nurse_Key);
             this.Controls.Add(this.BackBtn);
             this.Controls.Add(this.DischargeBtn);
             this.Controls.Add(this.PerformBtn);
@@ -241,5 +273,7 @@
         private MaterialSkin.Controls.MaterialFlatButton PerformBtn;
         private MaterialSkin.Controls.MaterialFlatButton DischargeBtn;
         private MaterialSkin.Controls.MaterialFlatButton BackBtn;
+        private MaterialSkin.Controls.MaterialLabel Patient_Key;
+        private MaterialSkin.Controls.MaterialLabel Nurse_Key;
     }
 }

@@ -3,7 +3,6 @@ using Laboratory_2.Repositories;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Laboratory_2.Forms
@@ -14,6 +13,8 @@ namespace Laboratory_2.Forms
         public const string nurseSubPath = @"C:\\DataBase\NurseData\";
 
         readonly FileOperations fileOperations = new FileOperations();
+        readonly DataHelper dataHelper = new DataHelper();
+
         public AuthorizationNurse()
         {
             InitializeComponent();
@@ -29,32 +30,6 @@ namespace Laboratory_2.Forms
                 );
         }
 
-        public async Task CloseAndOpen()
-        {
-            await fileOperations.DocTempFileCreation(FirstNameTxtBox.Text, SecondNameTxtBox.Text);
-            Close();
-            var nurseForm = new NurseForm();
-            nurseForm.ShowDialog();
-        }
-
-        public async Task OnPlaceDoctorCreation(DBApplicationContext dBApplicationContext, ENurse newENurse)
-        {
-            try
-            {
-                Repository<ENurse>
-                    .GetRepo(dBApplicationContext)
-                    .Create(newENurse);
-                MessageBox.Show("Success!");
-
-                await CloseAndOpen();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error occurred: " + ex.ToString());
-                return;
-            }
-        }
-
         private void AuthorizationNurse_Load(object sender, EventArgs e)
         {
 
@@ -62,13 +37,12 @@ namespace Laboratory_2.Forms
 
         private void BackBtn_Click(object sender, EventArgs e)
         {
-                Hide();
-                MainPage.form1Main.Show();
+            Hide();
+            MainPage.form1Main.Show();
         }
 
         private async void SignBtn_Click(object sender, EventArgs e)
-        {                //fileOperations.PatientRegistrationFileCreation(nurseSubPath, IdTxtBox.Text, FirstNameTxtBox.Text, SecondNameTxtBox.Text);
-
+        {
             try
             {
                 var context = new DBApplicationContext();
@@ -86,13 +60,13 @@ namespace Laboratory_2.Forms
                             .GetFirst(doctor => doctor.Id == Convert.ToInt32(IdTxtBox.Text));
 
                         MessageBox.Show($"Congratulations!\n" + newPreExNurse.SecondName + " " + newPreExNurse.FirstName + " managed to sing in!");
-                        await CloseAndOpen();
+                        await fileOperations.CloseAndOpenNurse(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                     }
                     else return;
                 }
                 else
                 {
-                    await OnPlaceDoctorCreation(context, newNurse);
+                    await dataHelper.OnPlaceNurseCreation(context, newNurse, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                 }
             }
             catch (Exception ex)
@@ -102,13 +76,7 @@ namespace Laboratory_2.Forms
         }
 
         private async void LogBtn_Click(object sender, EventArgs e)
-        {                //fileOperations.CheckFileForExsistence(nurseSubPath, IdTxtBox.Text, FirstNameTxtBox.Text, SecondNameTxtBox.Text);
-                         //if (fileOperations.CheckIfGetToGo() == true)
-                         //{
-                         //    Hide();
-                         //    var nurForm = new NurseForm();
-                         //    nurForm.ShowDialog();
-                         //}
+        {
             try
             {
                 var context = new DBApplicationContext();
@@ -121,14 +89,14 @@ namespace Laboratory_2.Forms
                     && (preExNurse.Id == Convert.ToInt32(IdTxtBox.Text)))
                 {
                     MessageBox.Show($"Congratulations!\n" + preExNurse.SecondName + " " + preExNurse.FirstName + " managed to sing in!");
-                    await CloseAndOpen();
+                    await fileOperations.CloseAndOpenNurse(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                 }
                 else
                 {
                     var msBoxResult = MessageBox.Show("Would you like to sign up?", "Such patient doesn't exist!", MessageBoxButtons.OKCancel);
                     if (msBoxResult == DialogResult.OK)
                     {
-                        await OnPlaceDoctorCreation(context, newNurse);
+                        await dataHelper.OnPlaceNurseCreation(context, newNurse, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                     }
                     else return;
                 }

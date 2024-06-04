@@ -1,4 +1,5 @@
-﻿using Laboratory_2.Models;
+﻿using Laboratory_2.Data.Models.Data;
+using Laboratory_2.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -29,7 +30,6 @@ namespace Laboratory_2.Repositories
                     database.Create();
                 }
             });
-
         }
 
         //-----------------------------------------------------------------------------------------------------------------------------------
@@ -69,18 +69,17 @@ namespace Laboratory_2.Repositories
 
         //-----------------------------------------------------------------------------------------------------------------------------------
 
-        public async Task PatTempFileCreation(string firstName, string secondName)
+        public async Task DocTempFileCreation(string id, string firstName, string secondName)
         {
             try
             {
-                var user = new Patient(tempSubPath, firstName, secondName);
+                var user = new Doctor(id, firstName, secondName);
                 string jsonObj = JsonConvert.SerializeObject(user);
                 string tempPath = Path.Combine(tempSubPath, $"{firstName} {secondName}.json");
                 using (var file = new StreamWriter(tempPath))
                 {
                     await file.WriteAsync(jsonObj);
                 }
-                //File.WriteAllText(tempPath, jsonObj);
             }
             catch (Exception ex)
             {
@@ -88,18 +87,17 @@ namespace Laboratory_2.Repositories
             }
         }
 
-        public async Task DocTempFileCreation(string firstName, string secondName)
+        public async Task NurTempFileCreation(string id, string firstName, string secondName)
         {
             try
             {
-                var user = new Doctor(tempSubPath, firstName, secondName);
+                var user = new Nurse(id, firstName, secondName);
                 string jsonObj = JsonConvert.SerializeObject(user);
                 string tempPath = Path.Combine(tempSubPath, $"{firstName} {secondName}.json");
                 using (var file = new StreamWriter(tempPath))
                 {
                     await file.WriteAsync(jsonObj);
                 }
-                //File.WriteAllText(tempPath, jsonObj);
             }
             catch (Exception ex)
             {
@@ -107,24 +105,51 @@ namespace Laboratory_2.Repositories
             }
         }
 
-        public async Task NurTempFileCreation(string firstName, string secondName)
+        public async Task PatTempFileCreation(string id, string firstName, string secondName)
         {
             try
             {
-                var user = new Nurse(tempSubPath, firstName, secondName);
+                var user = new Patient(id, firstName, secondName);
                 string jsonObj = JsonConvert.SerializeObject(user);
                 string tempPath = Path.Combine(tempSubPath, $"{firstName} {secondName}.json");
                 using (var file = new StreamWriter(tempPath))
                 {
                     await file.WriteAsync(jsonObj);
                 }
-                //File.WriteAllText(tempPath, jsonObj);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Didn't secceed in creating a tempfile - " + ex);
             }
         }
+
+        //-----------------------------------------------------------------------------------------------------------------------------------
+
+        public async Task CloseAndOpenPatient(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        {
+            await PatTempFileCreation(Id.Text, FirstName.Text, SecondName.Text);
+            This.Close();
+            var patientForm = new PatientForm();
+            patientForm.ShowDialog();
+        }
+
+        public async Task CloseAndOpenDoctor(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        {
+            await DocTempFileCreation(Id.Text, FirstName.Text, SecondName.Text);
+            This.Close();
+            var docForm = new DoctorForm();
+            docForm.ShowDialog();
+        }
+
+        public async Task CloseAndOpenNurse(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        {
+            await NurTempFileCreation(Id.Text, FirstName.Text, SecondName.Text);
+            This.Close();
+            var nurseForm = new NurseForm();
+            nurseForm.ShowDialog();
+        }
+
+        //-----------------------------------------------------------------------------------------------------------------------------------
 
         public async Task<string> ReadTempJson()
         {
@@ -132,7 +157,6 @@ namespace Laboratory_2.Repositories
             {
                 string[] tempFiles = Directory.GetFiles(tempSubPath);
                 string tempfilePath = tempFiles[0];
-                //string tempFileContent = File.ReadAllText(tempfilePath);
                 using (var file = new StreamReader(tempfilePath))
                 {
                     string tempFileContent = await file.ReadToEndAsync();
@@ -147,240 +171,41 @@ namespace Laboratory_2.Repositories
             }
         }
 
-        public async Task ClearTempDir()
+        public string ReadTempJsonId()
+        {
+            try
+            {
+                string[] tempFiles = Directory.GetFiles(tempSubPath);
+                string tempfilePath = tempFiles[0];
+                var file = new StreamReader(tempfilePath);
+                string tempFileContent = file.ReadToEnd();
+                file.Close();
+                dynamic jsonObj = JObject.Parse(tempFileContent);
+                return jsonObj.Id;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Can't read tempfile - " + ex);
+                return null;
+            }
+        }
+
+        public void ClearTempDir()
         {
             try
             {
                 var tempDir = new DirectoryInfo(tempSubPath);
-                //foreach (FileInfo file in tempDir.GetFiles())
-                //{
-                //    file.Delete();
-                //}
-                var deleteTasks = tempDir.GetFiles().Select(file => Task.Run(() => file.Delete())).ToArray();
-                await Task.WhenAll(deleteTasks);
-
-                MessageBox.Show("Temp is cleared!");
+                var gottenFiles = tempDir.GetFiles();
+                foreach(var file in gottenFiles) 
+                {
+                    file.Delete();
+                    MessageBox.Show("Temp is cleared!");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("An error occurred - " + ex);
             }
-        }
-        //-----------------------------------------------------------------------------------------------------------------------------------
-
-        //public void PatientRegistrationFileCreation(string subpath, string id, string firstName, string secondName)
-        //{
-        //    try
-        //    {
-        //        var user = new Patient(id, firstName, secondName);
-        //        string jsonObj = JsonConvert.SerializeObject(user);
-        //        File.WriteAllText(Path.Combine(subpath, $"{firstName} {secondName}.json"), jsonObj);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Didn't secceed in filling a file - " + ex);
-        //    }
-        //}
-
-        //public void DoctorRegistrationFileCreation(string subpath, string id, string firstName, string secondName)
-        //{
-        //    try
-        //    {
-        //        var user = new Doctor(id, firstName, secondName);
-        //        string jsonObj = JsonConvert.SerializeObject(user);
-        //        File.WriteAllText(Path.Combine(subpath, $"{firstName} {secondName}.json"), jsonObj);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Didn't secceed in filling a file - " + ex);
-        //    }
-        //}
-
-        //public void NurseRegistrationFileCreation(string subpath, string id, string firstName, string secondName)
-        //{
-        //    try
-        //    {
-        //        var user = new Nurse(id, firstName, secondName);
-        //        string jsonObj = JsonConvert.SerializeObject(user);
-        //        File.WriteAllText(Path.Combine(subpath, $"{firstName} {secondName}.json"), jsonObj);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Didn't secceed in filling a file - " + ex);
-        //    }
-        //}
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        public async Task<string> ReadJsonFromFile(string subpath, string firstName, string secondName)
-        {
-            string generalPath = subpath + firstName + " " + secondName + ".json";
-            try
-            {
-                return await Task.Run(() => File.ReadAllText(generalPath));
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Failed to read JSON file: " + ex);
-                return null;
-            }
-        }
-        public string GetUserId(string jsonContent)
-        {
-            try
-            {
-                dynamic jsonObj = JObject.Parse(jsonContent);
-                return jsonObj.Id;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Failed to get id from JSON: " + ex);
-                return null;
-            }
-        }
-        public async Task<string[]> GetUserTreatmentContent(string jsonContent)
-        {
-            try
-            {
-                dynamic jsonObj = JObject.Parse(jsonContent);
-                JArray treatmentContentArray = await jsonObj.TreatmentContent;
-                return treatmentContentArray.ToObject<string[]>();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Failed to get id from JSON: " + ex);
-                return null;
-            }
-        }
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        public bool IdInput(int idToCheck, int userId)
-        {
-            bool access;
-            if (idToCheck == userId)
-            {
-                access = true;
-                MessageBox.Show("You successfully signed in!");
-            }
-            else
-            {
-                access = false;
-                MessageBox.Show("Wrong id input");
-            }
-
-            return access;
-        }
-
-        public bool mainFuncBoolean;
-        public async Task CheckFileForExsistence(string subpath, string id, string firstName, string secondName)
-        {
-            int ID = Convert.ToInt32(id);
-            string generalPath = subpath + firstName + " " + secondName + ".json";
-            string jsonContent = await ReadJsonFromFile(subpath, firstName, secondName);
-            try
-            {
-                if (!File.Exists(generalPath))
-                {
-                    MessageBox.Show("You need to sign up at first!");
-                    mainFuncBoolean = false;
-                }
-
-                int jsonId = Convert.ToInt32(GetUserId(jsonContent));
-
-                bool idCheck = IdInput(jsonId, ID);
-                if (idCheck == true)
-                {
-
-                    mainFuncBoolean = true;
-                }
-                if (idCheck == false)
-                {
-
-                    mainFuncBoolean = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Didn't succeed - " + ex);
-                mainFuncBoolean = false;
-            }
-        }
-
-        public bool CheckIfGetToGo()
-        {
-            bool toGo = mainFuncBoolean;
-            if (toGo == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        //-----------------------------------------------------------------------------------------------------------------------------------
-
-        public string[] FindPatientsFiles(string patAdress)
-        {
-            string[] patients = Directory.GetFiles(patAdress);
-            return patients;
-        }
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        string[] patientsNames;
-        public string[] GetPatientsNames(string[] patientsPath)
-        {
-            patientsNames = patientsPath;
-            for (int i = 0; i < patientsPath.Length; i++)
-            {
-                patientsPath[i] = Path.GetFileNameWithoutExtension(patientsPath[i]);
-                patientsNames[i] = patientsPath[i];
-            }
-
-            return patientsNames;
-        }
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        public void TreatmentFileCreation(string subpath, string patientFirstName, string patientSecondName, string[] textboxContent)
-        {
-            try
-            {
-                var treatment = new Treatment(patientFirstName, patientSecondName, textboxContent);
-                string jsonObj = JsonConvert.SerializeObject(treatment);
-                File.WriteAllText(Path.Combine(subpath, $"{patientFirstName} {patientSecondName}.json"), jsonObj);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Didn't secceed in filling a file - " + ex);
-            }
-        }
-        //-----------------------------------------------------------------------------------------------------------------------------------
-        public async Task<string[]> FillTheTreatment(string subpath, string firstName, string secondName)
-        {
-            string jsonContent = await ReadJsonFromFile(subpath, firstName, secondName);
-            return await GetUserTreatmentContent(jsonContent);
-        }
-        //-----------------------------------------------------------------------------------------------------------------------------------
-
-        public void DischargePatient(string patientSubPath, string treatmentSubPath, string firstName, string secondName)
-        {
-            string patientPath = patientSubPath + firstName + " " + secondName + ".json";
-            string treatmentPath = treatmentSubPath + firstName + " " + secondName + ".json";
-
-            if (File.Exists(patientPath))
-            {
-                File.Delete(patientPath);
-                File.Delete(treatmentPath);
-                MessageBox.Show("Patient has been successfully discharged!");
-            }
-        }
-
-        //-----------------------------------------------------------------------------------------------------------------------------------
-
-        public void PerformTreatment(string patientSubPath, string treatmentSubPath, string firstName, string secondName)
-        {
-            string patientFilePath = (patientSubPath + firstName + " " + secondName + ".json");
-            File.Delete(patientFilePath);
-            string theatmentFilePath = (treatmentSubPath + firstName + " " + secondName + ".json");
-            File.Delete(theatmentFilePath);
-            MessageBox.Show("Treatment has been successfully performed and pathient has been discharged!");
         }
     }
 }

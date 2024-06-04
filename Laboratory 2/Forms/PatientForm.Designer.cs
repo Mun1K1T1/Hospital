@@ -34,6 +34,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.DischargeBtn = new MaterialSkin.Controls.MaterialFlatButton();
             this.BackBtn = new MaterialSkin.Controls.MaterialFlatButton();
+            this.Patient_Key = new MaterialSkin.Controls.MaterialLabel();
             this.SuspendLayout();
             // 
             // PatientNameTbx
@@ -107,11 +108,26 @@
             this.BackBtn.UseVisualStyleBackColor = true;
             this.BackBtn.Click += new System.EventHandler(this.BackBtn_Click);
             // 
+            // Patient_Key
+            // 
+            this.Patient_Key.AutoSize = true;
+            this.Patient_Key.Depth = 0;
+            this.Patient_Key.Font = new System.Drawing.Font("Roboto", 11F);
+            this.Patient_Key.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.Patient_Key.Location = new System.Drawing.Point(12, 337);
+            this.Patient_Key.MouseState = MaterialSkin.MouseState.HOVER;
+            this.Patient_Key.Name = "Patient_Key";
+            this.Patient_Key.Size = new System.Drawing.Size(90, 24);
+            this.Patient_Key.TabIndex = 31;
+            this.Patient_Key.Text = "Key_Here";
+            this.Patient_Key.Visible = false;
+            // 
             // PatientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 370);
+            this.Controls.Add(this.Patient_Key);
             this.Controls.Add(this.BackBtn);
             this.Controls.Add(this.DischargeBtn);
             this.Controls.Add(this.TreatmentTxtBx);
@@ -133,5 +149,6 @@
         private MaterialSkin.Controls.MaterialFlatButton DischargeBtn;
         public System.Windows.Forms.TextBox PatientNameTbx;
         private MaterialSkin.Controls.MaterialFlatButton BackBtn;
+        private MaterialSkin.Controls.MaterialLabel Patient_Key;
     }
 }
