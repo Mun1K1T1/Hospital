@@ -120,7 +120,7 @@
             this.ClientSize = new System.Drawing.Size(516, 229);
             this.Controls.Add(this.groupBox1);
             this.Name = "MainPage";
-            this.Text = "Role Choise";
+            this.Text = "Role Choice";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

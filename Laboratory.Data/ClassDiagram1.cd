@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Laboratory_2.Data.Models.Data.DBApplicationContext" Collapsed="true">
-    <Position X="8.75" Y="1" Width="2.5" />
+    <Position X="15" Y="1.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAQAAAACAAAAAAAAAAAAAAAAABgAAAgAAAAA=</HashCode>
       <FileName>Models.Data\DBApplicationContext.cs</FileName>
@@ -45,7 +45,7 @@
   <Class Name="Laboratory_2.Data.Models.Data.ETreatment" Collapsed="true">
     <Position X="0.5" Y="2.25" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAACAAAAAAAAAAAAAAQA=</HashCode>
+      <HashCode>AAAAAAAAAAQAAAAACAAAAAAAAACAAAAABAAAAAAAAQA=</HashCode>
       <FileName>Models.Data\ETreatment.cs</FileName>
     </TypeIdentifier>
   </Class>
