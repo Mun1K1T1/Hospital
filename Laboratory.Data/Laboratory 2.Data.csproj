@@ -146,6 +146,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models.Data\DBApplicationContext.cs" />
+    <Compile Include="Models.Data\ECleaningServiceManager.cs" />
+    <Compile Include="Models.Data\ECleaningServiceWorker.cs" />
     <Compile Include="Models.Data\EDoctor.cs" />
     <Compile Include="Models.Data\EEntity.cs" />
     <Compile Include="Models.Data\ENurse.cs" />
