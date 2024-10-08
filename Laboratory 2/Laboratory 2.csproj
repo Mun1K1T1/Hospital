@@ -148,6 +148,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\AuthorizationCleaningWorker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AuthorizationCleaningWorker.Designer.cs">
+      <DependentUpon>AuthorizationCleaningWorker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AuthorizationNurse.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,6 +184,7 @@
     <Compile Include="Forms\AuthorizationPatient.Designer.cs">
       <DependentUpon>AuthorizationPatient.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\CleaningServiceWorker.cs" />
     <Compile Include="Models\Doctor.cs" />
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Generic.cs" />
@@ -203,6 +210,9 @@
     <Compile Include="Repositories\FileOperations.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
+    <EmbeddedResource Include="Forms\AuthorizationCleaningWorker.resx">
+      <DependentUpon>AuthorizationCleaningWorker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AuthorizationDoctor.resx">
       <DependentUpon>AuthorizationDoctor.cs</DependentUpon>
     </EmbeddedResource>

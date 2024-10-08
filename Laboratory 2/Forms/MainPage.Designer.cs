@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CleaningWorkerBtn = new MaterialSkin.Controls.MaterialFlatButton();
+            this.CleaningManagerBtn = new MaterialSkin.Controls.MaterialFlatButton();
             this.PatientBtn = new MaterialSkin.Controls.MaterialFlatButton();
             this.DoctorBtn = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
@@ -38,6 +40,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.CleaningWorkerBtn);
+            this.groupBox1.Controls.Add(this.CleaningManagerBtn);
             this.groupBox1.Controls.Add(this.PatientBtn);
             this.groupBox1.Controls.Add(this.DoctorBtn);
             this.groupBox1.Controls.Add(this.materialLabel4);
@@ -49,13 +53,45 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Your role";
             // 
+            // CleaningWorkerBtn
+            // 
+            this.CleaningWorkerBtn.AutoSize = true;
+            this.CleaningWorkerBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.CleaningWorkerBtn.Depth = 0;
+            this.CleaningWorkerBtn.Icon = null;
+            this.CleaningWorkerBtn.Location = new System.Drawing.Point(260, 85);
+            this.CleaningWorkerBtn.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.CleaningWorkerBtn.MouseState = MaterialSkin.MouseState.HOVER;
+            this.CleaningWorkerBtn.Name = "CleaningWorkerBtn";
+            this.CleaningWorkerBtn.Primary = false;
+            this.CleaningWorkerBtn.Size = new System.Drawing.Size(178, 36);
+            this.CleaningWorkerBtn.TabIndex = 34;
+            this.CleaningWorkerBtn.Text = "Cleaning worker";
+            this.CleaningWorkerBtn.UseVisualStyleBackColor = true;
+            // 
+            // CleaningManagerBtn
+            // 
+            this.CleaningManagerBtn.AutoSize = true;
+            this.CleaningManagerBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.CleaningManagerBtn.Depth = 0;
+            this.CleaningManagerBtn.Icon = null;
+            this.CleaningManagerBtn.Location = new System.Drawing.Point(49, 85);
+            this.CleaningManagerBtn.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.CleaningManagerBtn.MouseState = MaterialSkin.MouseState.HOVER;
+            this.CleaningManagerBtn.Name = "CleaningManagerBtn";
+            this.CleaningManagerBtn.Primary = false;
+            this.CleaningManagerBtn.Size = new System.Drawing.Size(191, 36);
+            this.CleaningManagerBtn.TabIndex = 33;
+            this.CleaningManagerBtn.Text = "Cleaning Manager";
+            this.CleaningManagerBtn.UseVisualStyleBackColor = true;
+            // 
             // PatientBtn
             // 
             this.PatientBtn.AutoSize = true;
             this.PatientBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PatientBtn.Depth = 0;
             this.PatientBtn.Icon = null;
-            this.PatientBtn.Location = new System.Drawing.Point(26, 64);
+            this.PatientBtn.Location = new System.Drawing.Point(24, 37);
             this.PatientBtn.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.PatientBtn.MouseState = MaterialSkin.MouseState.HOVER;
             this.PatientBtn.Name = "PatientBtn";
@@ -72,7 +108,7 @@
             this.DoctorBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.DoctorBtn.Depth = 0;
             this.DoctorBtn.Icon = null;
-            this.DoctorBtn.Location = new System.Drawing.Point(197, 64);
+            this.DoctorBtn.Location = new System.Drawing.Point(197, 37);
             this.DoctorBtn.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.DoctorBtn.MouseState = MaterialSkin.MouseState.HOVER;
             this.DoctorBtn.Name = "DoctorBtn";
@@ -102,7 +138,7 @@
             this.NurseBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.NurseBtn.Depth = 0;
             this.NurseBtn.Icon = null;
-            this.NurseBtn.Location = new System.Drawing.Point(387, 64);
+            this.NurseBtn.Location = new System.Drawing.Point(380, 37);
             this.NurseBtn.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.NurseBtn.MouseState = MaterialSkin.MouseState.HOVER;
             this.NurseBtn.Name = "NurseBtn";
@@ -135,6 +171,8 @@
         private MaterialSkin.Controls.MaterialLabel materialLabel4;
         private MaterialSkin.Controls.MaterialFlatButton NurseBtn;
         private MaterialSkin.Controls.MaterialFlatButton PatientBtn;
+        private MaterialSkin.Controls.MaterialFlatButton CleaningWorkerBtn;
+        private MaterialSkin.Controls.MaterialFlatButton CleaningManagerBtn;
     }
 }
 

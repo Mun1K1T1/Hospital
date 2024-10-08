@@ -123,6 +123,8 @@ namespace Laboratory_2.Repositories
             }
         }
 
+
+
         //-----------------------------------------------------------------------------------------------------------------------------------
 
         public async Task CloseAndOpenPatient(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)

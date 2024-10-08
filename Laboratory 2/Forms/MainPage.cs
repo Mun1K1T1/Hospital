@@ -59,5 +59,6 @@ namespace Laboratory_2
             Hide();
 
         }
+
     }
 }
