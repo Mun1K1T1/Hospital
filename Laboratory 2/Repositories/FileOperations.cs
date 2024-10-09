@@ -16,6 +16,8 @@ namespace Laboratory_2.Repositories
         public const string docSubPath = @"C:\\DataBase\DocData\";
         public const string nurseSubPath = @"C:\\DataBase\NurseData\";
         public const string patientSubPath = @"C:\\DataBase\PatientData\";
+        public const string cleaningWorkerSubPath = @"C:\\DataBase\CleaningWorkerData\";
+        public const string cleaningManagerSubPath = @"C:\\DataBase\CleaningManagerData\";
         public const string treatSubPath = @"C:\\DataBase\TreatmentData\";
         public const string tempSubPath = @"C:\\DataBase\TempData\";
         //-----------------------------------------------------------------------------------------------------------------------------------
@@ -52,6 +54,18 @@ namespace Laboratory_2.Repositories
             {
                 var patientdata = new DirectoryInfo(patientSubPath);
                 if (!patientdata.Exists) patientdata.Create();
+            });
+
+            await Task.Run(() =>
+            {
+                var cleaningWorkerdata = new DirectoryInfo(cleaningWorkerSubPath);
+                if (!cleaningWorkerdata.Exists) cleaningWorkerdata.Create();
+            });
+
+            await Task.Run(() =>
+            {
+                var cleaningManagerdata = new DirectoryInfo(cleaningManagerSubPath);
+                if (!cleaningManagerdata.Exists) cleaningManagerdata.Create();
             });
 
             await Task.Run(() =>
@@ -123,7 +137,41 @@ namespace Laboratory_2.Repositories
             }
         }
 
+        public async Task CleaningWorkerTempFileCreation(string id, string firstName, string secondName)
+        {
+            try
+            {
+                var user = new Person(id, firstName, secondName);
+                string jsonObj = JsonConvert.SerializeObject(user);
+                string tempPath = Path.Combine(tempSubPath, $"{firstName} {secondName}.json");
+                using (var file = new StreamWriter(tempPath))
+                {
+                    await file.WriteAsync(jsonObj);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Didn't secceed in creating a tempfile - " + ex);
+            }
+        }
 
+        public async Task CleaningManagerTempFileCreation(string id, string firstName, string secondName)
+        {
+            try
+            {
+                var user = new Person(id, firstName, secondName);
+                string jsonObj = JsonConvert.SerializeObject(user);
+                string tempPath = Path.Combine(tempSubPath, $"{firstName} {secondName}.json");
+                using (var file = new StreamWriter(tempPath))
+                {
+                    await file.WriteAsync(jsonObj);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Didn't secceed in creating a tempfile - " + ex);
+            }
+        }
 
         //-----------------------------------------------------------------------------------------------------------------------------------
 
@@ -149,6 +197,22 @@ namespace Laboratory_2.Repositories
             This.Close();
             var nurseForm = new NurseForm();
             nurseForm.ShowDialog();
+        }
+
+        public async Task CloseAndOpenCleaningWorker(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        {
+            await CleaningWorkerTempFileCreation(Id.Text, FirstName.Text, SecondName.Text);
+            This.Close();
+            var serviceWorker = new CleaningServiceWorkerForm();
+            serviceWorker.ShowDialog();
+        }
+
+        public async Task CloseAndOpenCleaningManager(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        {
+            await CleaningManagerTempFileCreation(Id.Text, FirstName.Text, SecondName.Text);
+            This.Close();
+            var serviceManager = new CleaningServiceManagerForm();
+            serviceManager.ShowDialog();
         }
 
         //-----------------------------------------------------------------------------------------------------------------------------------

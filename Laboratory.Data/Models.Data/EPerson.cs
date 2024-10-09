@@ -7,7 +7,7 @@
         public string SecondName { get; set; }
 
 
-        protected EPerson(int id, string firstName, string secondName)
+        public EPerson(int id, string firstName, string secondName)
         {
             Id = id;
             FirstName = firstName;

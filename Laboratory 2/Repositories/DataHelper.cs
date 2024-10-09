@@ -64,6 +64,42 @@ namespace Laboratory_2.Repositories
             }
         }
 
+        public async Task OnPlaceCleaningWorkerCreation(DBApplicationContext dBApplicationContext, EPerson newEPerson, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        {
+            try
+            {
+                Repository<EPerson>
+                    .GetRepo(dBApplicationContext)
+                    .Create(newEPerson);
+                MessageBox.Show("Success!");
+
+                await fileOperations.CloseAndOpenCleaningWorker(Id, FirstName, SecondName, This);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error occurred: " + ex.ToString());
+                return;
+            }
+        }
+
+        public async Task OnPlaceCleaningManagerCreation(DBApplicationContext dBApplicationContext, EPerson newEPerson, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        {
+            try
+            {
+                Repository<EPerson>
+                    .GetRepo(dBApplicationContext)
+                    .Create(newEPerson);
+                MessageBox.Show("Success!");
+
+                await fileOperations.CloseAndOpenCleaningManager(Id, FirstName, SecondName, This);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error occurred: " + ex.ToString());
+                return;
+            }
+        }
+
         //-----------------------------------------------------------------------------------------------------------------------------------
 
         public void AddItemsPatientsListview(ListBox listBox)

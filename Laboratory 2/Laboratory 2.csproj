@@ -184,6 +184,7 @@
     <Compile Include="Forms\AuthorizationPatient.Designer.cs">
       <DependentUpon>AuthorizationPatient.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\CleaningServiceManager.cs" />
     <Compile Include="Models\CleaningServiceWorker.cs" />
     <Compile Include="Models\Doctor.cs" />
     <Compile Include="Models\Entity.cs" />
