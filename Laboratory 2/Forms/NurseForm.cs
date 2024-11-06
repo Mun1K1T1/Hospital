@@ -1,11 +1,7 @@
-﻿using Laboratory_2.Data.Models.Data;
-using Laboratory_2.Repositories;
+﻿using Laboratory_2.Repositories;
 using MaterialSkin;
 using MaterialSkin.Controls;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Laboratory_2

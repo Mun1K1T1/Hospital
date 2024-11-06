@@ -68,6 +68,7 @@
             this.CleaningWorkerBtn.TabIndex = 34;
             this.CleaningWorkerBtn.Text = "Cleaning worker";
             this.CleaningWorkerBtn.UseVisualStyleBackColor = true;
+            this.CleaningWorkerBtn.Click += new System.EventHandler(this.CleaningWorkerBtn_Click);
             // 
             // CleaningManagerBtn
             // 
@@ -84,6 +85,7 @@
             this.CleaningManagerBtn.TabIndex = 33;
             this.CleaningManagerBtn.Text = "Cleaning Manager";
             this.CleaningManagerBtn.UseVisualStyleBackColor = true;
+            this.CleaningManagerBtn.Click += new System.EventHandler(this.CleaningManagerBtn_Click);
             // 
             // PatientBtn
             // 

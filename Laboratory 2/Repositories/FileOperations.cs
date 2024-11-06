@@ -203,7 +203,7 @@ namespace Laboratory_2.Repositories
         {
             await CleaningWorkerTempFileCreation(Id.Text, FirstName.Text, SecondName.Text);
             This.Close();
-            var serviceWorker = new CleaningServiceWorkerForm();
+            var serviceWorker = new CleaningWorkerForm();
             serviceWorker.ShowDialog();
         }
 
@@ -211,7 +211,7 @@ namespace Laboratory_2.Repositories
         {
             await CleaningManagerTempFileCreation(Id.Text, FirstName.Text, SecondName.Text);
             This.Close();
-            var serviceManager = new CleaningServiceManagerForm();
+            var serviceManager = new CleaningManagerForm();
             serviceManager.ShowDialog();
         }
 

@@ -39,7 +39,6 @@ namespace Laboratory_2
             var authorizationPatient = new AuthorizationPatient();
 
             authorizationPatient.Show();
-            Hide();
         }
 
         private void DoctorBtn_Click(object sender, EventArgs e)
@@ -47,8 +46,6 @@ namespace Laboratory_2
             var authorizationDoctor = new AuthorizationDoctor();
 
             authorizationDoctor.Show();
-            Hide();
-
         }
 
         private void NurseBtn_Click(object sender, EventArgs e)
@@ -56,9 +53,21 @@ namespace Laboratory_2
             var authorizationNurse = new AuthorizationNurse();
 
             authorizationNurse.Show();
-            Hide();
 
         }
 
+        private void CleaningWorkerBtn_Click(object sender, EventArgs e)
+        {
+            var authorizationCleanServWorker = new AuthorizationCleaningWorker();
+
+            authorizationCleanServWorker.Show();
+        }
+
+        private void CleaningManagerBtn_Click(object sender, EventArgs e)
+        {
+            var authorizationCleanServManager = new AuthorizationCleaningManager();
+
+            authorizationCleanServManager.Show();
+        }
     }
 }

@@ -148,6 +148,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\AuthorizationCleaningManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AuthorizationCleaningManager.Designer.cs">
+      <DependentUpon>AuthorizationCleaningManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CleaningManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CleaningManagerForm.Designer.cs">
+      <DependentUpon>CleaningManagerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CleaningWorkerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CleaningWorkerForm.Designer.cs">
+      <DependentUpon>CleaningWorkerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AuthorizationCleaningWorker.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -211,6 +229,15 @@
     <Compile Include="Repositories\FileOperations.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
+    <EmbeddedResource Include="Forms\AuthorizationCleaningManager.resx">
+      <DependentUpon>AuthorizationCleaningManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CleaningManagerForm.resx">
+      <DependentUpon>CleaningManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CleaningWorkerForm.resx">
+      <DependentUpon>CleaningWorkerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AuthorizationCleaningWorker.resx">
       <DependentUpon>AuthorizationCleaningWorker.cs</DependentUpon>
     </EmbeddedResource>
@@ -260,9 +287,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Laboratory.Data\Laboratory 2.Data.csproj">
+    <ProjectReference Include="..\Laboratory.Data\Laboratory2_Data.csproj">
       <Project>{594cf02a-42b8-4ffa-b963-0f06d182f833}</Project>
-      <Name>Laboratory 2.Data</Name>
+      <Name>Laboratory2_Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

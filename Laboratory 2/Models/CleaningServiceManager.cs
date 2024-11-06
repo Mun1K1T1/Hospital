@@ -4,9 +4,9 @@ namespace Laboratory_2.Models
 {
     public class CleaningServiceManager : Person
     {
-        public Guid[] AssignedCleaningServiceWorkers { get; set; }
+        public string AssignedCleaningServiceWorkers { get; set; }
 
-        public CleaningServiceManager(string id, string firstName, string secondName, Guid[] assignedECleaningServiceWorkers) : base(id, firstName, secondName)
+        public CleaningServiceManager(string id, string firstName, string secondName, string assignedECleaningServiceWorkers = null) : base(id, firstName, secondName)
         {
             AssignedCleaningServiceWorkers = assignedECleaningServiceWorkers;
         }

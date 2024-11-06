@@ -121,6 +121,25 @@ namespace Laboratory_2.Repositories
             }
         }
 
+        public void AddItemsCleaningWorkersListview(ListBox listBox)
+        {
+            try
+            {
+                var context = new DBApplicationContext();
+                var query = from worker in context.CleaningServiceWorkers
+                            orderby worker.FirstName ascending
+                            select new { worker.FirstName, worker.SecondName, worker.Key };
+                foreach (var worker in query)
+                {
+                    listBox.Items.Add(worker.FirstName + " " + worker.SecondName + " " + worker.Key.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error occurred - \n" + ex);
+            }
+        }
+
         //-----------------------------------------------------------------------------------------------------------------------------------
 
         public void DeletePatient(TextBox PatientFirstName, TextBox PatientSecondName)
@@ -283,6 +302,60 @@ namespace Laboratory_2.Repositories
                             where nurse.FirstName == nurFirstName
                             where nurse.SecondName == nurSecondName
                             select new { nurse.Key };
+                var foundKey = await query.FirstOrDefaultAsync();
+                if (foundKey != null)
+                {
+                    label.Text = Convert.ToString(foundKey.Key);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error occurred - \n" + ex);
+            }
+        }
+
+        public async void AddCleaningManagerKeyToTheForm(TextBox Name, Label label)
+        {
+            try
+            {
+                string fullName = Name.Text;
+                string[] nameParts = fullName.Split(' ');
+                string cleanManagerFirstName = nameParts[0];
+                string cleanManagerSecondName = nameParts[1];
+                int cleanManagerId = Convert.ToInt16(fileOperations.ReadTempJsonId());
+                var context = new DBApplicationContext();
+                var query = from manager in context.CleaningServiceManagers
+                            where manager.Id == cleanManagerId
+                            where manager.FirstName == cleanManagerFirstName
+                            where manager.SecondName == cleanManagerSecondName
+                            select new { manager.Key };
+                var foundKey = await query.FirstOrDefaultAsync();
+                if (foundKey != null)
+                {
+                    label.Text = Convert.ToString(foundKey.Key);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error occurred - \n" + ex);
+            }
+        }
+
+        public async void AddCleaningWorkerKeyToTheForm(TextBox Name, Label label)
+        {
+            try
+            {
+                string fullName = Name.Text;
+                string[] nameParts = fullName.Split(' ');
+                string cleanWorkerFirstName = nameParts[0];
+                string cleanWorkerSecondName = nameParts[1];
+                int cleanWorkerId = Convert.ToInt16(fileOperations.ReadTempJsonId());
+                var context = new DBApplicationContext();
+                var query = from worker in context.CleaningServiceWorkers
+                            where worker.Id == cleanWorkerId
+                            where worker.FirstName == cleanWorkerFirstName
+                            where worker.SecondName == cleanWorkerSecondName
+                            select new { worker.Key };
                 var foundKey = await query.FirstOrDefaultAsync();
                 if (foundKey != null)
                 {

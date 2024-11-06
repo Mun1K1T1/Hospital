@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Laboratory.Data")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Laboratory 2.Data")]
+[assembly: AssemblyDescription("First lib")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Laboratory.Data")]
-[assembly: AssemblyCopyright("Copyright ©  2024")]
+[assembly: AssemblyCompany("MyStudentSelf")]
+[assembly: AssemblyProduct("Laboratory 2.Data")]
+[assembly: AssemblyCopyright("Copyright © MyStudentSelf 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

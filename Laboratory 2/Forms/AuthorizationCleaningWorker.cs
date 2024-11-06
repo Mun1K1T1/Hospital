@@ -9,8 +9,6 @@ namespace Laboratory_2
 {
     public partial class AuthorizationCleaningWorker : MaterialForm
     {
-        public const string patientSubPath = @"C:\\DataBase\PatientData\";
-
         readonly FileOperations fileOperations = new FileOperations();
         readonly DataHelper dataHelper = new DataHelper();
         public AuthorizationCleaningWorker()
@@ -44,8 +42,8 @@ namespace Laboratory_2
             try
             {
                 var context = new DBApplicationContext();
-                var newCleaningWorker = new EPerson(Convert.ToInt32(IdTxtBox.Text), FirstNameTxtBox.Text, SecondNameTxtBox.Text);
-                var preExCleaningWorker = Repository<EPerson>
+                var newCleaningWorker = new ECleaningServiceWorker(Convert.ToInt32(IdTxtBox.Text), FirstNameTxtBox.Text, SecondNameTxtBox.Text);
+                var preExCleaningWorker = Repository<ECleaningServiceWorker>
                     .GetRepo(context)
                     .GetFirst(CleaningWorker => CleaningWorker.Id == newCleaningWorker.Id);
                 if (preExCleaningWorker != null)
@@ -53,7 +51,7 @@ namespace Laboratory_2
                     var msBoxResult = MessageBox.Show("Would you like to sign in?", "Such Cleaning Worker already exists!", MessageBoxButtons.YesNo);
                     if (msBoxResult == DialogResult.Yes)
                     {
-                        var newPreExCleaningWorker = Repository<EPerson>
+                        var newPreExCleaningWorker = Repository<ECleaningServiceWorker>
                             .GetRepo(context)
                             .GetFirst(CleaningWorker => CleaningWorker.Id == Convert.ToInt32(IdTxtBox.Text));
 
@@ -78,20 +76,20 @@ namespace Laboratory_2
             try
             {
                 var context = new DBApplicationContext();
-                var newCleaningWorker = new EPerson(Convert.ToInt32(IdTxtBox.Text), FirstNameTxtBox.Text, SecondNameTxtBox.Text);
-                var preExCleaningWorker = Repository<EPerson>
+                var newCleaningWorker = new ECleaningServiceWorker(Convert.ToInt32(IdTxtBox.Text), FirstNameTxtBox.Text, SecondNameTxtBox.Text);
+                var preExCleaningWorker = Repository<ECleaningServiceWorker>
                     .GetRepo(context)
-                    .GetFirst(patient => patient.Id == Convert.ToInt32(IdTxtBox.Text));
+                    .GetFirst(person => person.Id == Convert.ToInt32(IdTxtBox.Text));
 
                 if ((preExCleaningWorker != null) && (preExCleaningWorker.FirstName == FirstNameTxtBox.Text) && (preExCleaningWorker.SecondName == SecondNameTxtBox.Text)
                     && (preExCleaningWorker.Id == Convert.ToInt32(IdTxtBox.Text)))
                 {
                     MessageBox.Show($"Congratulations!\n" + preExCleaningWorker.SecondName + " " + preExCleaningWorker.FirstName + " managed to sing in!");
-                    await fileOperations.CloseAndOpenPatient(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    await fileOperations.CloseAndOpenCleaningWorker(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                 }
                 else
                 {
-                    var msBoxResult = MessageBox.Show("Would you like to sign up?", "Such patient doesn't exist!", MessageBoxButtons.OKCancel);
+                    var msBoxResult = MessageBox.Show("Would you like to sign up?", "Such Cleaning Worker doesn't exist!", MessageBoxButtons.OKCancel);
                     if (msBoxResult == DialogResult.OK)
                     {
                         await dataHelper.OnPlaceCleaningWorkerCreation(context, newCleaningWorker, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
