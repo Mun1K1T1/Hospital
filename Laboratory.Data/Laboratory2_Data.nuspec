@@ -8,10 +8,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <!-- <icon>icon.png</icon> -->
-    <projectUrl>http://project_url_here_or_delete_this_line/</projectUrl>
+    <projectUrl>https://github.com/Mun1K1T1/Hospital.git</projectUrl>
     <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
-    <copyright>$copyright$</copyright>
-    <tags>Tag1 Tag2</tags>
+    <releaseNotes>For the Lab5</releaseNotes>
+    <copyright>Copyright 2024</copyright>
+    <tags>sql magic MyStudentSelf luke malpass </tags>
   </metadata>
 </package>
