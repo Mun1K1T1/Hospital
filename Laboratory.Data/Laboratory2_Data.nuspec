@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <!-- <icon>icon.png</icon> -->
+    <projectUrl>https://github.com/Mun1K1T1/Hospital.git</projectUrl>
+    <description>$description$</description>
+    <releaseNotes>For the Lab5</releaseNotes>
+    <copyright>Copyright 2024</copyright>
+    <tags>sql magic MyStudentSelf luke malpass </tags>
+  </metadata>
+</package>
