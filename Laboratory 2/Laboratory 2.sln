@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Laboratory 2", "Laboratory 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Laboratory2_Data", "..\Laboratory.Data\Laboratory2_Data.csproj", "{594CF02A-42B8-4FFA-B963-0F06D182F833}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Data", "..\Hospital.Data\Hospital.Data.csproj", "{EC01B1E7-D515-427D-BF52-B4E1B1EDBD8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{594CF02A-42B8-4FFA-B963-0F06D182F833}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{594CF02A-42B8-4FFA-B963-0F06D182F833}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{594CF02A-42B8-4FFA-B963-0F06D182F833}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC01B1E7-D515-427D-BF52-B4E1B1EDBD8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC01B1E7-D515-427D-BF52-B4E1B1EDBD8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC01B1E7-D515-427D-BF52-B4E1B1EDBD8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC01B1E7-D515-427D-BF52-B4E1B1EDBD8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
