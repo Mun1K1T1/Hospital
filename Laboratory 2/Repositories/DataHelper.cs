@@ -20,7 +20,7 @@ namespace Laboratory_2.Repositories
                     .Create(newEPatient);
                 MessageBox.Show("Success!");
 
-                await fileOperations.CloseAndOpenPatient(Id, FirstName, SecondName, This);
+                await fileOperations.NeedToCloseToOpenPatient(Id, FirstName, SecondName, This);
             }
             catch (Exception ex)
             {
@@ -37,7 +37,7 @@ namespace Laboratory_2.Repositories
                     .Create(newEDoctor);
                 MessageBox.Show("Success!");
 
-                await fileOperations.CloseAndOpenDoctor(Id, FirstName, SecondName, This);
+                await fileOperations.NeedToCloseToOpenDoctor(Id, FirstName, SecondName, This);
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ namespace Laboratory_2.Repositories
                     .Create(newENurse);
                 MessageBox.Show("Success!");
 
-                await fileOperations.CloseAndOpenNurse(Id, FirstName, SecondName, This);
+                await fileOperations.NeedToCloseToOpenNurse(Id, FirstName, SecondName, This);
             }
             catch (Exception ex)
             {
@@ -73,7 +73,7 @@ namespace Laboratory_2.Repositories
                     .Create(newEPerson);
                 MessageBox.Show("Success!");
 
-                await fileOperations.CloseAndOpenCleaningWorker(Id, FirstName, SecondName, This);
+                await fileOperations.NeedToCloseToOpenCleaningWorker(Id, FirstName, SecondName, This);
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace Laboratory_2.Repositories
                     .Create(newEPerson);
                 MessageBox.Show("Success!");
 
-                await fileOperations.CloseAndOpenCleaningManager(Id, FirstName, SecondName, This);
+                await fileOperations.NeedToCloseToOpenCleaningManager(Id, FirstName, SecondName, This);
             }
             catch (Exception ex)
             {

@@ -1,5 +1,6 @@
 ﻿using Laboratory_2.Data.Models.Data;
 using Laboratory_2.Repositories;
+using Laboratory_2.Repositories.FormFactory;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
@@ -7,10 +8,16 @@ using System.Windows.Forms;
 
 namespace Laboratory_2
 {
-    public partial class AuthorizationCleaningManager : MaterialForm
+    public partial class AuthorizationCleaningManager : MaterialForm, IForm
     {
         readonly FileOperations fileOperations = new FileOperations();
         readonly DataHelper dataHelper = new DataHelper();
+
+        public void ShowForm()
+        {
+            this.Show();
+        }
+
         public AuthorizationCleaningManager()
         {
             InitializeComponent();
@@ -56,13 +63,19 @@ namespace Laboratory_2
                             .GetFirst(CleaningManager => CleaningManager.Id == Convert.ToInt32(IdTxtBox.Text));
 
                         MessageBox.Show($"Congratulations!\n" + newPreExCleaningManager.SecondName + " " + preExCleaningManager.FirstName + " managed to sing in!");
-                        await fileOperations.CloseAndOpenCleaningManager(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        await fileOperations.NeedToCloseToOpenCleaningManager(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        IForm form = FormFactory.CreateForm("CleaningWorker");
+                        form.ShowForm();
+                        this.Close();
                     }
                     else return;
                 }
                 else
                 {
                     await dataHelper.OnPlaceCleaningManagerCreation(context, newCleaningManager, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    IForm form = FormFactory.CreateForm("CleaningWorker");
+                    form.ShowForm();
+                    this.Close();
                 }
             }
             catch (Exception ex)
@@ -85,7 +98,10 @@ namespace Laboratory_2
                     && (preExCleaningManager.Id == Convert.ToInt32(IdTxtBox.Text)))
                 {
                     MessageBox.Show($"Congratulations!\n" + preExCleaningManager.SecondName + " " + preExCleaningManager.FirstName + " managed to sing in!");
-                    await fileOperations.CloseAndOpenCleaningManager(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    await fileOperations.NeedToCloseToOpenCleaningManager(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    IForm form = FormFactory.CreateForm("CleaningWorker");
+                    form.ShowForm();
+                    this.Close();
                 }
                 else
                 {
@@ -93,6 +109,9 @@ namespace Laboratory_2
                     if (msBoxResult == DialogResult.OK)
                     {
                         await dataHelper.OnPlaceCleaningManagerCreation(context, newCleaningManager, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        IForm form = FormFactory.CreateForm("CleaningWorker");
+                        form.ShowForm();
+                        this.Close();
                     }
                     else return;
                 }

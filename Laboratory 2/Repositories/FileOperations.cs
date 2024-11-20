@@ -1,16 +1,15 @@
-﻿using Laboratory_2.Data.Models.Data;
-using Laboratory_2.Models;
+﻿using Laboratory_2.Models;
+using Laboratory_2.Repositories.FormFactory;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Laboratory_2.Repositories
 {
-    internal class FileOperations
+    internal class FileOperations : IForm
     {
         public const string directPath = @"C:\\DataBase";
         public const string docSubPath = @"C:\\DataBase\DocData\";
@@ -21,6 +20,11 @@ namespace Laboratory_2.Repositories
         public const string treatSubPath = @"C:\\DataBase\TreatmentData\";
         public const string tempSubPath = @"C:\\DataBase\TempData\";
         //-----------------------------------------------------------------------------------------------------------------------------------
+
+        public void ShowForm()
+        {
+
+        }
 
         public async Task DataBaseCreation()
         {
@@ -175,44 +179,29 @@ namespace Laboratory_2.Repositories
 
         //-----------------------------------------------------------------------------------------------------------------------------------
 
-        public async Task CloseAndOpenPatient(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        public async Task NeedToCloseToOpenPatient(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
         {
             await PatTempFileCreation(Id.Text, FirstName.Text, SecondName.Text);
-            This.Close();
-            var patientForm = new PatientForm();
-            patientForm.ShowDialog();
         }
 
-        public async Task CloseAndOpenDoctor(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        public async Task NeedToCloseToOpenDoctor(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
         {
             await DocTempFileCreation(Id.Text, FirstName.Text, SecondName.Text);
-            This.Close();
-            var docForm = new DoctorForm();
-            docForm.ShowDialog();
         }
 
-        public async Task CloseAndOpenNurse(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        public async Task NeedToCloseToOpenNurse(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
         {
             await NurTempFileCreation(Id.Text, FirstName.Text, SecondName.Text);
-            This.Close();
-            var nurseForm = new NurseForm();
-            nurseForm.ShowDialog();
         }
 
-        public async Task CloseAndOpenCleaningWorker(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        public async Task NeedToCloseToOpenCleaningWorker(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
         {
             await CleaningWorkerTempFileCreation(Id.Text, FirstName.Text, SecondName.Text);
-            This.Close();
-            var serviceWorker = new CleaningWorkerForm();
-            serviceWorker.ShowDialog();
         }
 
-        public async Task CloseAndOpenCleaningManager(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        public async Task NeedToCloseToOpenCleaningManager(TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
         {
             await CleaningManagerTempFileCreation(Id.Text, FirstName.Text, SecondName.Text);
-            This.Close();
-            var serviceManager = new CleaningManagerForm();
-            serviceManager.ShowDialog();
         }
 
         //-----------------------------------------------------------------------------------------------------------------------------------
@@ -262,7 +251,7 @@ namespace Laboratory_2.Repositories
             {
                 var tempDir = new DirectoryInfo(tempSubPath);
                 var gottenFiles = tempDir.GetFiles();
-                foreach(var file in gottenFiles) 
+                foreach (var file in gottenFiles)
                 {
                     file.Delete();
                     MessageBox.Show("Temp is cleared!");

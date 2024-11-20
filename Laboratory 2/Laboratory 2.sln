@@ -4,10 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Laboratory 2", "Laboratory 2.csproj", "{48815C60-DFF5-4096-8B42-CF1495745E3E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{594CF02A-42B8-4FFA-B963-0F06D182F833} = {594CF02A-42B8-4FFA-B963-0F06D182F833}
+		{EC01B1E7-D515-427D-BF52-B4E1B1EDBD8A} = {EC01B1E7-D515-427D-BF52-B4E1B1EDBD8A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Laboratory2_Data", "..\Laboratory.Data\Laboratory2_Data.csproj", "{594CF02A-42B8-4FFA-B963-0F06D182F833}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.Data", "..\Hospital.Data\Hospital.Data.csproj", "{EC01B1E7-D515-427D-BF52-B4E1B1EDBD8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital_Data", "..\Hospital.Data\Hospital_Data.csproj", "{EC01B1E7-D515-427D-BF52-B4E1B1EDBD8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

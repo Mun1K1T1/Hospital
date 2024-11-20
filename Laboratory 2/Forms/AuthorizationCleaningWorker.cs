@@ -1,5 +1,6 @@
 ﻿using Laboratory_2.Data.Models.Data;
 using Laboratory_2.Repositories;
+using Laboratory_2.Repositories.FormFactory;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
@@ -7,10 +8,16 @@ using System.Windows.Forms;
 
 namespace Laboratory_2
 {
-    public partial class AuthorizationCleaningWorker : MaterialForm
+    public partial class AuthorizationCleaningWorker : MaterialForm, IForm
     {
         readonly FileOperations fileOperations = new FileOperations();
         readonly DataHelper dataHelper = new DataHelper();
+
+        public void ShowForm()
+        {
+            this.Show();
+        }
+
         public AuthorizationCleaningWorker()
         {
             InitializeComponent();
@@ -56,13 +63,19 @@ namespace Laboratory_2
                             .GetFirst(CleaningWorker => CleaningWorker.Id == Convert.ToInt32(IdTxtBox.Text));
 
                         MessageBox.Show($"Congratulations!\n" + newPreExCleaningWorker.SecondName + " " + preExCleaningWorker.FirstName + " managed to sing in!");
-                        await fileOperations.CloseAndOpenCleaningWorker(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        await fileOperations.NeedToCloseToOpenCleaningWorker(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        IForm form = FormFactory.CreateForm("CleaningWorker");
+                        form.ShowForm();
+                        this.Close();
                     }
                     else return;
                 }
                 else
                 {
                     await dataHelper.OnPlaceCleaningWorkerCreation(context, newCleaningWorker, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    IForm form = FormFactory.CreateForm("CleaningWorker");
+                    form.ShowForm();
+                    this.Close();
                 }
             }
             catch (Exception ex)
@@ -85,7 +98,10 @@ namespace Laboratory_2
                     && (preExCleaningWorker.Id == Convert.ToInt32(IdTxtBox.Text)))
                 {
                     MessageBox.Show($"Congratulations!\n" + preExCleaningWorker.SecondName + " " + preExCleaningWorker.FirstName + " managed to sing in!");
-                    await fileOperations.CloseAndOpenCleaningWorker(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    await fileOperations.NeedToCloseToOpenCleaningWorker(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    IForm form = FormFactory.CreateForm("CleaningWorker");
+                    form.ShowForm();
+                    this.Close();
                 }
                 else
                 {
@@ -93,6 +109,9 @@ namespace Laboratory_2
                     if (msBoxResult == DialogResult.OK)
                     {
                         await dataHelper.OnPlaceCleaningWorkerCreation(context, newCleaningWorker, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        IForm form = FormFactory.CreateForm("CleaningWorker");
+                        form.ShowForm();
+                        this.Close();
                     }
                     else return;
                 }

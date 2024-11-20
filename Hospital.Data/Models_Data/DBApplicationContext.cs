@@ -2,7 +2,7 @@
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System;
 
-namespace Hospital.Data.Models_Data
+namespace Hospital_Data.Models_Data
 {
     public class DBApplicationContext : DbContext
     {

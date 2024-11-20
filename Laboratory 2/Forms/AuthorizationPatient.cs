@@ -1,5 +1,6 @@
 ﻿using Laboratory_2.Data.Models.Data;
 using Laboratory_2.Repositories;
+using Laboratory_2.Repositories.FormFactory;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
@@ -7,12 +8,18 @@ using System.Windows.Forms;
 
 namespace Laboratory_2.Forms
 {
-    public partial class AuthorizationPatient : MaterialForm
+    public partial class AuthorizationPatient : MaterialForm, IForm
     {
         public const string patientSubPath = @"C:\\DataBase\PatientData\";
 
         readonly FileOperations fileOperations = new FileOperations();
         readonly DataHelper dataHelper = new DataHelper();
+
+        public void ShowForm()
+        {
+            this.Show();
+        }
+
         public AuthorizationPatient()
         {
             InitializeComponent();
@@ -35,8 +42,8 @@ namespace Laboratory_2.Forms
 
         private void BackBtn_Click(object sender, EventArgs e)
         {
-            Hide();
-            MainPage.form1Main.Show();
+            IForm form = FormFactory.CreateForm("MainPage");
+            form.ShowForm();
         }
 
         private async void SignBtn_Click(object sender, EventArgs e)
@@ -58,13 +65,19 @@ namespace Laboratory_2.Forms
                             .GetFirst(patient => patient.Id == Convert.ToInt32(IdTxtBox.Text));
 
                         MessageBox.Show($"Congratulations!\n" + newPreExPatient.SecondName + " " + preExPatient.FirstName + " managed to sing in!");
-                        await fileOperations.CloseAndOpenPatient(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        await fileOperations.NeedToCloseToOpenPatient(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        IForm form = FormFactory.CreateForm("Patient");
+                        form.ShowForm();
+                        this.Close();
                     }
                     else return;
                 }
                 else
                 {
                     await dataHelper.OnPlacePatientCreation(context, newPatient, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    IForm form = FormFactory.CreateForm("Patient");
+                    form.ShowForm();
+                    this.Close();
                 }
             }
             catch (Exception ex)
@@ -87,7 +100,10 @@ namespace Laboratory_2.Forms
                     && (preExPatient.Id == Convert.ToInt32(IdTxtBox.Text)))
                 {
                     MessageBox.Show($"Congratulations!\n" + preExPatient.SecondName + " " + preExPatient.FirstName + " managed to sing in!");
-                    await fileOperations.CloseAndOpenPatient(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    await fileOperations.NeedToCloseToOpenPatient(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    IForm form = FormFactory.CreateForm("Patient");
+                    form.ShowForm();
+                    this.Close();
                 }
                 else
                 {
@@ -95,6 +111,9 @@ namespace Laboratory_2.Forms
                     if (msBoxResult == DialogResult.OK)
                     {
                         await dataHelper.OnPlacePatientCreation(context, newPatient, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        IForm form = FormFactory.CreateForm("Patient");
+                        form.ShowForm();
+                        this.Close();
                     }
                     else return;
                 }

@@ -1,19 +1,24 @@
 ﻿using Laboratory_2.Data.Models.Data;
 using Laboratory_2.Repositories;
+using Laboratory_2.Repositories.FormFactory;
 using MaterialSkin;
 using MaterialSkin.Controls;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Laboratory_2
 {
-    public partial class CleaningWorkerForm : MaterialForm
+    public partial class CleaningWorkerForm : MaterialForm, IForm
     {
         readonly FileOperations fileOperations = new FileOperations();
         readonly DataHelper dataHelper = new DataHelper();
+
+        public void ShowForm()
+        {
+            this.Show();
+        }
+
         public CleaningWorkerForm()
         {
             InitializeComponent();

@@ -1,4 +1,5 @@
 ﻿using Laboratory_2.Repositories;
+using Laboratory_2.Repositories.FormFactory;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
@@ -6,12 +7,17 @@ using System.Windows.Forms;
 
 namespace Laboratory_2
 {
-    public partial class NurseForm : MaterialForm
+    public partial class NurseForm : MaterialForm, IForm
     {
         readonly FileOperations fileOperations = new FileOperations();
         readonly DataHelper dataHelper = new DataHelper();
 
         //------------------------------------------------------------------------------------------
+
+        public void ShowForm()
+        {
+            this.Show();
+        }
 
         public NurseForm()
         {

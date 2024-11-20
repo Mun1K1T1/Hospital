@@ -1,4 +1,4 @@
-﻿namespace Hospital.Data.Models_Data
+﻿namespace Hospital_Data.Models_Data
 {
     public class EPatient : EPerson
     {

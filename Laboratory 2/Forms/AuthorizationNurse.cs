@@ -1,5 +1,6 @@
 ﻿using Laboratory_2.Data.Models.Data;
 using Laboratory_2.Repositories;
+using Laboratory_2.Repositories.FormFactory;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
@@ -7,13 +8,17 @@ using System.Windows.Forms;
 
 namespace Laboratory_2.Forms
 {
-    public partial class AuthorizationNurse : MaterialForm
+    public partial class AuthorizationNurse : MaterialForm, IForm
     {
-
         public const string nurseSubPath = @"C:\\DataBase\NurseData\";
 
         readonly FileOperations fileOperations = new FileOperations();
         readonly DataHelper dataHelper = new DataHelper();
+
+        public void ShowForm()
+        {
+            this.Show();
+        }
 
         public AuthorizationNurse()
         {
@@ -60,13 +65,19 @@ namespace Laboratory_2.Forms
                             .GetFirst(doctor => doctor.Id == Convert.ToInt32(IdTxtBox.Text));
 
                         MessageBox.Show($"Congratulations!\n" + newPreExNurse.SecondName + " " + newPreExNurse.FirstName + " managed to sing in!");
-                        await fileOperations.CloseAndOpenNurse(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        await fileOperations.NeedToCloseToOpenNurse(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        IForm form = FormFactory.CreateForm("Nurse");
+                        form.ShowForm();
+                        this.Close();
                     }
                     else return;
                 }
                 else
                 {
                     await dataHelper.OnPlaceNurseCreation(context, newNurse, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    IForm form = FormFactory.CreateForm("Nurse");
+                    form.ShowForm();
+                    this.Close();
                 }
             }
             catch (Exception ex)
@@ -89,7 +100,10 @@ namespace Laboratory_2.Forms
                     && (preExNurse.Id == Convert.ToInt32(IdTxtBox.Text)))
                 {
                     MessageBox.Show($"Congratulations!\n" + preExNurse.SecondName + " " + preExNurse.FirstName + " managed to sing in!");
-                    await fileOperations.CloseAndOpenNurse(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    await fileOperations.NeedToCloseToOpenNurse(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    IForm form = FormFactory.CreateForm("Nurse");
+                    form.ShowForm();
+                    this.Close();
                 }
                 else
                 {
@@ -97,6 +111,9 @@ namespace Laboratory_2.Forms
                     if (msBoxResult == DialogResult.OK)
                     {
                         await dataHelper.OnPlaceNurseCreation(context, newNurse, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        IForm form = FormFactory.CreateForm("Nurse");
+                        form.ShowForm();
+                        this.Close();
                     }
                     else return;
                 }

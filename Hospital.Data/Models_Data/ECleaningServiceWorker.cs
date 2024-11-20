@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Hospital.Data.Models_Data
+namespace Hospital_Data.Models_Data
 {
     public class ECleaningServiceWorker : EPerson
     {

@@ -1,5 +1,4 @@
-﻿using Laboratory_2.Data.Models.Data;
-using Laboratory_2.Repositories;
+﻿using Laboratory_2.Repositories;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using Microsoft.EntityFrameworkCore;
@@ -7,13 +6,20 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Laboratory_2.Data.Models.Data;
+using Laboratory_2.Repositories.FormFactory;
 
 namespace Laboratory_2
 {
-    public partial class PatientForm : MaterialForm
+    public partial class PatientForm : MaterialForm, IForm
     {
         readonly FileOperations fileOperations = new FileOperations();
         readonly DataHelper dataHelper = new DataHelper();
+
+        public void ShowForm()
+        {
+            this.Show();
+        }
 
         //------------------------------------------------------------------------------------------
 
