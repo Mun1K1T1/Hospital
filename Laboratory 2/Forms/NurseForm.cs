@@ -1,4 +1,5 @@
-﻿using Laboratory_2.Repositories;
+﻿using Laboratory_2.Data.Models.Data;
+using Laboratory_2.Repositories;
 using Laboratory_2.Repositories.FormFactory;
 using MaterialSkin;
 using MaterialSkin.Controls;
@@ -9,18 +10,21 @@ namespace Laboratory_2
 {
     public partial class NurseForm : MaterialForm, IForm
     {
-        readonly FileOperations fileOperations = new FileOperations();
-        readonly DataHelper dataHelper = new DataHelper();
+        private readonly IFileOperations _fileOperations;
+        private readonly DataHelper _dataHelper;
 
         //------------------------------------------------------------------------------------------
 
         public void ShowForm()
         {
-            this.Show();
+            Show();
         }
 
-        public NurseForm()
+        public NurseForm(IFileOperations fileOperations, DataHelper dataHelper, DBApplicationContext dbContext)
         {
+            _fileOperations = fileOperations ?? throw new ArgumentNullException(nameof(fileOperations));
+            _dataHelper = dataHelper ?? throw new ArgumentNullException(nameof(dataHelper));
+
             InitializeComponent();
 
             var materialSkinManager = MaterialSkinManager.Instance;
@@ -40,10 +44,10 @@ namespace Laboratory_2
         {
             try
             {
-                NurNameTbx.Text = await fileOperations.ReadTempJson();
-                dataHelper.AddNurseKeyToTheForm(NurNameTbx, Nurse_Key);
-                fileOperations.ClearTempDir();
-                dataHelper.AddItemsPatientsListview(PatientsListBox);
+                NurNameTbx.Text = await _fileOperations.ReadTempJson();
+                _dataHelper.AddNurseKeyToTheForm(NurNameTbx, Nurse_Key);
+                await _fileOperations.ClearTempDir();
+                _dataHelper.AddItemsPatientsListview(PatientsListBox);
             }
             catch (Exception ex)
             {
@@ -66,7 +70,7 @@ namespace Laboratory_2
 
                 TreatmentTxtBx.Clear();
 
-                string treatmentText = await dataHelper.TreatmentTextAcquire(PatientFirstNameTxb, PatientSecNameTxb);
+                string treatmentText = await _dataHelper.TreatmentTextAcquire(PatientFirstNameTxb, PatientSecNameTxb);
                 if (treatmentText != null) TreatmentTxtBx.AppendText(treatmentText);
                 else TreatmentTxtBx.Text = "No content available";
             }
@@ -80,10 +84,10 @@ namespace Laboratory_2
         {
             try
             {
-                dataHelper.DeletePatient(PatientFirstNameTxb, PatientSecNameTxb);
+                _dataHelper.DeletePatient(PatientFirstNameTxb, PatientSecNameTxb);
                 PatientsListBox.Items.Clear();
                 TreatmentTxtBx.Text = String.Empty;
-                dataHelper.AddItemsPatientsListview(PatientsListBox);
+                _dataHelper.AddItemsPatientsListview(PatientsListBox);
             }
             catch (Exception ex)
             {
@@ -96,10 +100,10 @@ namespace Laboratory_2
         {
             try
             {
-                dataHelper.DeletePatient(PatientFirstNameTxb, PatientSecNameTxb);
+                _dataHelper.DeletePatient(PatientFirstNameTxb, PatientSecNameTxb);
                 PatientsListBox.Items.Clear();
                 TreatmentTxtBx.Text = String.Empty;
-                dataHelper.AddItemsPatientsListview(PatientsListBox);
+                _dataHelper.AddItemsPatientsListview(PatientsListBox);
             }
             catch (Exception ex)
             {
@@ -109,8 +113,9 @@ namespace Laboratory_2
 
         private void BackBtn_Click(object sender, EventArgs e)
         {
+            IForm form = FormFactory.CreateForm("MainPage");
+            form.ShowForm();
             Close();
-            MainPage.form1Main.Show();
         }
     }
 }

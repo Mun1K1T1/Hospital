@@ -3,6 +3,7 @@ using Laboratory_2.Repositories;
 using Laboratory_2.Repositories.FormFactory;
 using MaterialSkin;
 using MaterialSkin.Controls;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Windows.Forms;
 
@@ -10,17 +11,19 @@ namespace Laboratory_2
 {
     public partial class DoctorForm : MaterialForm, IForm
     {
-        readonly FileOperations fileOperations = new FileOperations();
-        readonly DataHelper dataHelper = new DataHelper();
+        private readonly IFileOperations _fileOperations;
+        private readonly DataHelper _dataHelper;
         //------------------------------------------------------------------------------------------
 
         public void ShowForm()
         {
-            this.Show();
+            Show();
         }
 
-        public DoctorForm()
+        public DoctorForm(IFileOperations fileOperations, DataHelper dataHelper, DBApplicationContext dbContext)
         {
+            _fileOperations = fileOperations ?? throw new ArgumentNullException(nameof(fileOperations));
+            _dataHelper = dataHelper ?? throw new ArgumentNullException(nameof(dataHelper));
 
             InitializeComponent();
 
@@ -39,10 +42,10 @@ namespace Laboratory_2
         {
             try
             {
-                DocNameTbx.Text = await fileOperations.ReadTempJson();
-                dataHelper.AddDoctorKeyToTheForm(DocNameTbx, Doctor_Key);
-                fileOperations.ClearTempDir();
-                dataHelper.AddItemsPatientsListview(PatientsListBox);
+                DocNameTbx.Text = await _fileOperations.ReadTempJson();
+                _dataHelper.AddDoctorKeyToTheForm(DocNameTbx, Doctor_Key);
+                await _fileOperations.ClearTempDir();
+                _dataHelper.AddItemsPatientsListview(PatientsListBox);
             }
             catch (Exception ex)
             {
@@ -72,7 +75,7 @@ namespace Laboratory_2
         {
             try
             {
-                dataHelper.SaveTreatmentContent(TreatmentTxtBx, Patient_Key, Doctor_Key, PatientFirstNameTxb, PatientSecNameTxb);
+                _dataHelper.SaveTreatmentContent(TreatmentTxtBx, Patient_Key, Doctor_Key, PatientFirstNameTxb, PatientSecNameTxb);
                 TreatmentTxtBx.Text = String.Empty;
             }
             catch (Exception ex)
@@ -83,8 +86,9 @@ namespace Laboratory_2
 
         private void BackBtn_Click(object sender, EventArgs e)
         {
-            Hide();
-            MainPage.form1Main.Show();
+            IForm form = FormFactory.CreateForm("MainPage");
+            form.ShowForm();
+            Close();
         }
     }
 }

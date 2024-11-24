@@ -13,18 +13,23 @@ namespace Laboratory_2
 {
     public partial class PatientForm : MaterialForm, IForm
     {
-        readonly FileOperations fileOperations = new FileOperations();
-        readonly DataHelper dataHelper = new DataHelper();
+        private readonly IFileOperations _fileOperations;
+        private readonly DataHelper _dataHelper;
+        private readonly DBApplicationContext _dbContext;
 
         public void ShowForm()
         {
-            this.Show();
+            Show();
         }
 
         //------------------------------------------------------------------------------------------
 
-        public PatientForm()
+        public PatientForm(IFileOperations fileOperations, DataHelper dataHelper, DBApplicationContext dbContext)
         {
+            _fileOperations = fileOperations ?? throw new ArgumentNullException(nameof(fileOperations));
+            _dataHelper = dataHelper ?? throw new ArgumentNullException(nameof(dataHelper));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+
             InitializeComponent();
 
             var materialSkinManager = MaterialSkinManager.Instance;
@@ -38,6 +43,10 @@ namespace Laboratory_2
                 );
         }
 
+        public PatientForm()
+        {
+        }
+
         //------------------------------------------------------------------------------------------
 
         public async Task<string> TreatmentTextAcquire()
@@ -46,9 +55,9 @@ namespace Laboratory_2
             string[] patientNameElements = patientFullName.Split(' ');
             string patientFirstName = patientNameElements[0];
             string patientSecondName = patientNameElements[1];
-            using (var context = new DBApplicationContext())
+            using (_dbContext)
             {
-                var query = from treatment in context.Treatments
+                var query = from treatment in _dbContext.Treatments
                             where treatment.PatientFirstName == patientFirstName
                             where treatment.PatientSecondName == patientSecondName
                             where treatment.PatientKey.ToString() == Patient_Key.Text
@@ -63,9 +72,9 @@ namespace Laboratory_2
         {
             try
             {
-                PatientNameTbx.Text = await fileOperations.ReadTempJson();
-                dataHelper.AddPatientKeyToTheForm(PatientNameTbx, Patient_Key);
-                fileOperations.ClearTempDir();
+                PatientNameTbx.Text = await _fileOperations.ReadTempJson();
+                _dataHelper.AddPatientKeyToTheForm(PatientNameTbx, Patient_Key);
+                await _fileOperations.ClearTempDir();
                 string treatmentText = await TreatmentTextAcquire();
                 if (treatmentText != null) TreatmentTxtBx.AppendText(treatmentText);
                 else TreatmentTxtBx.Text = "No content available";
@@ -80,7 +89,7 @@ namespace Laboratory_2
         {
             try
             {
-                dataHelper.DeletePatient(PatientNameTbx);
+                _dataHelper.DeletePatient(PatientNameTbx);
             }
             catch (Exception ex)
             {
@@ -90,8 +99,9 @@ namespace Laboratory_2
 
         private void BackBtn_Click(object sender, EventArgs e)
         {
-            Hide();
-            MainPage.form1Main.Show();
+            IForm form = FormFactory.CreateForm("MainPage");
+            form.ShowForm();
+            Close();
         }
     }
 }

@@ -1,27 +1,30 @@
-﻿using Laboratory_2.Repositories;
+﻿using Laboratory_2.Data.Models.Data;
+using Laboratory_2.Repositories;
 using Laboratory_2.Repositories.FormFactory;
 using MaterialSkin;
 using MaterialSkin.Controls;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Laboratory_2
 {
     public partial class CleaningManagerForm : MaterialForm, IForm
     {
-        readonly FileOperations fileOperations = new FileOperations();
-        readonly DataHelper dataHelper = new DataHelper();
+        private readonly IFileOperations _fileOperations;
+        private readonly DataHelper _dataHelper;
+        private readonly DBApplicationContext _dbContext;
 
         public void ShowForm()
         {
-            this.Show();
+            Show();
         }
 
-        public CleaningManagerForm()
+        public CleaningManagerForm(IFileOperations fileOperations, DataHelper dataHelper, DBApplicationContext dbContext)
         {
+            _fileOperations = fileOperations ?? throw new ArgumentNullException(nameof(fileOperations));
+            _dataHelper = dataHelper ?? throw new ArgumentNullException(nameof(dataHelper));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+
             InitializeComponent();
 
             var materialSkinManager = MaterialSkinManager.Instance;
@@ -35,14 +38,18 @@ namespace Laboratory_2
                 );
         }
 
+        public CleaningManagerForm()
+        {
+        }
+
         private async void CleaningManagerForm_Load(object sender, EventArgs e)
         {
             try
             {
-                CleaningManagerNameTbx.Text = await fileOperations.ReadTempJson();
-                dataHelper.AddCleaningManagerKeyToTheForm(CleaningManagerNameTbx, CleaningManager_Key);
-                fileOperations.ClearTempDir();
-                dataHelper.AddItemsCleaningWorkersListview(WorkersListBox);
+                CleaningManagerNameTbx.Text = await _fileOperations.ReadTempJson();
+                _dataHelper.AddCleaningManagerKeyToTheForm(CleaningManagerNameTbx, CleaningManager_Key);
+                await _fileOperations.ClearTempDir();
+                _dataHelper.AddItemsCleaningWorkersListview(WorkersListBox);
             }
             catch (Exception ex)
             {

@@ -10,16 +10,21 @@ namespace Laboratory_2
 {
     public partial class AuthorizationCleaningManager : MaterialForm, IForm
     {
-        readonly FileOperations fileOperations = new FileOperations();
-        readonly DataHelper dataHelper = new DataHelper();
+        private readonly IFileOperations _fileOperations;
+        private readonly DataHelper _dataHelper;
+        private readonly DBApplicationContext _dbContext;
 
         public void ShowForm()
         {
-            this.Show();
+            Show();
         }
 
-        public AuthorizationCleaningManager()
+        public AuthorizationCleaningManager(IFileOperations fileOperations, DataHelper dataHelper, DBApplicationContext dbContext)
         {
+            _fileOperations = fileOperations ?? throw new ArgumentNullException(nameof(fileOperations));
+            _dataHelper = dataHelper ?? throw new ArgumentNullException(nameof(dataHelper));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+
             InitializeComponent();
 
             var materialSkinManager = MaterialSkinManager.Instance;
@@ -33,6 +38,10 @@ namespace Laboratory_2
                 );
         }
 
+        public AuthorizationCleaningManager()
+        {
+        }
+
         private void AuthorizationCleaningManager_Load(object sender, EventArgs e)
         {
 
@@ -40,18 +49,18 @@ namespace Laboratory_2
 
         private void BackBtn_Click(object sender, EventArgs e)
         {
-            Hide();
-            MainPage.form1Main.Show();
+            IForm form = FormFactory.CreateForm("MainPage");
+            form.ShowForm();
+            Close();
         }
 
         private async void SignBtn_Click(object sender, EventArgs e)
         {
             try
             {
-                var context = new DBApplicationContext();
                 var newCleaningManager = new ECleaningServiceManager(Convert.ToInt32(IdTxtBox.Text), FirstNameTxtBox.Text, SecondNameTxtBox.Text);
                 var preExCleaningManager = Repository<ECleaningServiceManager>
-                    .GetRepo(context)
+                    .GetRepo(_dbContext)
                     .GetFirst(CleaningManager => CleaningManager.Id == newCleaningManager.Id);
                 if (preExCleaningManager != null)
                 {
@@ -59,11 +68,11 @@ namespace Laboratory_2
                     if (msBoxResult == DialogResult.Yes)
                     {
                         var newPreExCleaningManager = Repository<ECleaningServiceManager>
-                            .GetRepo(context)
+                            .GetRepo(_dbContext)
                             .GetFirst(CleaningManager => CleaningManager.Id == Convert.ToInt32(IdTxtBox.Text));
 
                         MessageBox.Show($"Congratulations!\n" + newPreExCleaningManager.SecondName + " " + preExCleaningManager.FirstName + " managed to sing in!");
-                        await fileOperations.NeedToCloseToOpenCleaningManager(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        await _fileOperations.NeedToCloseToOpenCleaningManager(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                         IForm form = FormFactory.CreateForm("CleaningWorker");
                         form.ShowForm();
                         this.Close();
@@ -72,7 +81,7 @@ namespace Laboratory_2
                 }
                 else
                 {
-                    await dataHelper.OnPlaceCleaningManagerCreation(context, newCleaningManager, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    await _dataHelper.OnPlaceCleaningManagerCreation(newCleaningManager, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                     IForm form = FormFactory.CreateForm("CleaningWorker");
                     form.ShowForm();
                     this.Close();
@@ -88,17 +97,16 @@ namespace Laboratory_2
         {
             try
             {
-                var context = new DBApplicationContext();
                 var newCleaningManager = new ECleaningServiceManager(Convert.ToInt32(IdTxtBox.Text), FirstNameTxtBox.Text, SecondNameTxtBox.Text);
                 var preExCleaningManager = Repository<ECleaningServiceManager>
-                    .GetRepo(context)
+                    .GetRepo(_dbContext)
                     .GetFirst(person => person.Id == Convert.ToInt32(IdTxtBox.Text));
 
                 if ((preExCleaningManager != null) && (preExCleaningManager.FirstName == FirstNameTxtBox.Text) && (preExCleaningManager.SecondName == SecondNameTxtBox.Text)
                     && (preExCleaningManager.Id == Convert.ToInt32(IdTxtBox.Text)))
                 {
                     MessageBox.Show($"Congratulations!\n" + preExCleaningManager.SecondName + " " + preExCleaningManager.FirstName + " managed to sing in!");
-                    await fileOperations.NeedToCloseToOpenCleaningManager(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    await _fileOperations.NeedToCloseToOpenCleaningManager(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                     IForm form = FormFactory.CreateForm("CleaningWorker");
                     form.ShowForm();
                     this.Close();
@@ -108,7 +116,7 @@ namespace Laboratory_2
                     var msBoxResult = MessageBox.Show("Would you like to sign up?", "Such Cleaning Manager doesn't exist!", MessageBoxButtons.OKCancel);
                     if (msBoxResult == DialogResult.OK)
                     {
-                        await dataHelper.OnPlaceCleaningManagerCreation(context, newCleaningManager, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        await _dataHelper.OnPlaceCleaningManagerCreation(newCleaningManager, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                         IForm form = FormFactory.CreateForm("CleaningWorker");
                         form.ShowForm();
                         this.Close();

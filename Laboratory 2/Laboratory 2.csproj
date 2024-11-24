@@ -229,6 +229,7 @@
     <Compile Include="Repositories\FileOperations.cs" />
     <Compile Include="Repositories\FormFactory\FormFactory.cs" />
     <Compile Include="Repositories\FormFactory\IForm.cs" />
+    <Compile Include="Repositories\IFileOperations.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <EmbeddedResource Include="Forms\AuthorizationCleaningManager.resx">
@@ -293,6 +294,9 @@
       <Project>{594cf02a-42b8-4ffa-b963-0f06d182f833}</Project>
       <Name>Laboratory2_Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repositories\Logger\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -11,16 +11,20 @@ namespace Laboratory_2
 {
     public partial class CleaningWorkerForm : MaterialForm, IForm
     {
-        readonly FileOperations fileOperations = new FileOperations();
-        readonly DataHelper dataHelper = new DataHelper();
+        private readonly IFileOperations _fileOperations;
+        private readonly DataHelper _dataHelper;
+        private readonly DBApplicationContext _dbContext;
 
         public void ShowForm()
         {
-            this.Show();
+            Show();
         }
 
-        public CleaningWorkerForm()
+        public CleaningWorkerForm(IFileOperations fileOperations, DataHelper dataHelper, DBApplicationContext dbContext)
         {
+            _fileOperations = fileOperations ?? throw new ArgumentNullException(nameof(fileOperations));
+            _dataHelper = dataHelper ?? throw new ArgumentNullException(nameof(dataHelper));
+
             InitializeComponent();
 
             var materialSkinManager = MaterialSkinManager.Instance;
@@ -55,8 +59,7 @@ namespace Laboratory_2
             try
             {
                 string workerKey = Worker_Key.Text;
-                var context = new DBApplicationContext();
-                var query = from task in context.CleaningServiceTasks
+                var query = from task in _dbContext.CleaningServiceTasks
                             where task.AssignedCleaningServiceWorker == workerKey
                             select task;
                 foreach (var task in query)
@@ -74,11 +77,10 @@ namespace Laboratory_2
         {
             try
             {
-                CleaningWorkerNameTbx.Text = await fileOperations.ReadTempJson();
-                dataHelper.AddCleaningWorkerKeyToTheForm(CleaningWorkerNameTbx, Worker_Key);
-                fileOperations.ClearTempDir();
+                CleaningWorkerNameTbx.Text = await _fileOperations.ReadTempJson();
+                _dataHelper.AddCleaningWorkerKeyToTheForm(CleaningWorkerNameTbx, Worker_Key);
+                await _fileOperations.ClearTempDir();
                 AddItemsCleaningTasksListview(CleaningTaskslistBox);
-                //string treatmentText = 
             }
             catch (Exception ex)
             {

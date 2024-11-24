@@ -7,37 +7,462 @@ using System.Windows.Forms;
 
 namespace Laboratory_2.Repositories
 {
-    internal class DataHelper
+    public class DataHelper
     {
-        readonly FileOperations fileOperations = new FileOperations();
+        //readonly FileOperations fileOperations = new FileOperations();
 
-        public async Task OnPlacePatientCreation(DBApplicationContext dBApplicationContext, EPatient newEPatient, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        //public async Task OnPlacePatientCreation(DBApplicationContext dBApplicationContext, EPatient newEPatient, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        //{
+        //    try
+        //    {
+        //        Repository<EPatient>
+        //            .GetRepo(dBApplicationContext)
+        //            .Create(newEPatient);
+        //        MessageBox.Show("Success!");
+
+        //        await fileOperations.NeedToCloseToOpenPatient(Id, FirstName, SecondName, This);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error occurred: " + ex.ToString());
+        //        return;
+        //    }
+        //}
+        //public async Task OnPlaceDoctorCreation(DBApplicationContext dBApplicationContext, EDoctor newEDoctor, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        //{
+        //    try
+        //    {
+        //        Repository<EDoctor>
+        //            .GetRepo(dBApplicationContext)
+        //            .Create(newEDoctor);
+        //        MessageBox.Show("Success!");
+
+        //        await fileOperations.NeedToCloseToOpenDoctor(Id, FirstName, SecondName, This);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error occurred: " + ex.ToString());
+        //        return;
+        //    }
+        //}
+
+        //public async Task OnPlaceNurseCreation(DBApplicationContext dBApplicationContext, ENurse newENurse, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        //{
+        //    try
+        //    {
+        //        Repository<ENurse>
+        //            .GetRepo(dBApplicationContext)
+        //            .Create(newENurse);
+        //        MessageBox.Show("Success!");
+
+        //        await fileOperations.NeedToCloseToOpenNurse(Id, FirstName, SecondName, This);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error occurred: " + ex.ToString());
+        //        return;
+        //    }
+        //}
+
+        //public async Task OnPlaceCleaningWorkerCreation(DBApplicationContext dBApplicationContext, EPerson newEPerson, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        //{
+        //    try
+        //    {
+        //        Repository<EPerson>
+        //            .GetRepo(dBApplicationContext)
+        //            .Create(newEPerson);
+        //        MessageBox.Show("Success!");
+
+        //        await fileOperations.NeedToCloseToOpenCleaningWorker(Id, FirstName, SecondName, This);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error occurred: " + ex.ToString());
+        //        return;
+        //    }
+        //}
+
+        //public async Task OnPlaceCleaningManagerCreation(DBApplicationContext dBApplicationContext, EPerson newEPerson, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        //{
+        //    try
+        //    {
+        //        Repository<EPerson>
+        //            .GetRepo(dBApplicationContext)
+        //            .Create(newEPerson);
+        //        MessageBox.Show("Success!");
+
+        //        await fileOperations.NeedToCloseToOpenCleaningManager(Id, FirstName, SecondName, This);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error occurred: " + ex.ToString());
+        //        return;
+        //    }
+        //}
+
+        ////-----------------------------------------------------------------------------------------------------------------------------------
+
+        //public void AddItemsPatientsListview(ListBox listBox)
+        //{
+        //    try
+        //    {
+        //        var context = new DBApplicationContext();
+        //        var query = from patient in context.Patients
+        //                    orderby patient.FirstName ascending
+        //                    select new { patient.FirstName, patient.SecondName, patient.Key };
+        //        foreach (var patient in query)
+        //        {
+        //            listBox.Items.Add(patient.FirstName + " " + patient.SecondName + " " + patient.Key.ToString());
+        //        } 
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error occurred - \n" + ex);
+        //    }
+        //}
+
+        //public void AddItemsCleaningWorkersListview(ListBox listBox)
+        //{
+        //    try
+        //    {
+        //        var context = new DBApplicationContext();
+        //        var query = from worker in context.CleaningServiceWorkers
+        //                    orderby worker.FirstName ascending
+        //                    select new { worker.FirstName, worker.SecondName, worker.Key };
+        //        foreach (var worker in query)
+        //        {
+        //            listBox.Items.Add(worker.FirstName + " " + worker.SecondName + " " + worker.Key.ToString());
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error occurred - \n" + ex);
+        //    }
+        //}
+
+        ////-----------------------------------------------------------------------------------------------------------------------------------
+
+        //public void DeletePatient(TextBox PatientFirstName, TextBox PatientSecondName)
+        //{
+        //    try
+        //    {
+        //        var context = new DBApplicationContext();
+        //        var preExPatient = Repository<EPatient>
+        //            .GetRepo(context)
+        //            .GetFirst(patient => patient.FirstName + patient.SecondName == PatientFirstName.Text + PatientSecondName.Text);
+        //        if (preExPatient != null)
+        //        {
+        //            Guid patGuid = preExPatient.Key;
+        //            Repository<EPatient>
+        //                .GetRepo(context)
+        //                .Delete(patGuid);
+        //            MessageBox.Show("Patient was deleted!");
+        //        }
+        //        else return;
+        //        try
+        //        {
+        //            var preExTreatment = Repository<ETreatment>
+        //                .GetRepo(context)
+        //                .GetFirst(treatment => treatment.PatientFirstName + treatment.PatientSecondName == PatientFirstName.Text + PatientSecondName.Text);
+        //            if (preExTreatment != null)
+        //            {
+        //                Guid treatGuid = preExTreatment.Key;
+        //                Repository<ETreatment>
+        //                    .GetRepo(context)
+        //                    .Delete(treatGuid);
+        //                MessageBox.Show("Patient's treatment was deleted!");
+        //            }
+        //            else return;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            MessageBox.Show("Failed to delete patient's treatment - \n" + ex);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Failed to delete patient - \n" + ex);
+        //    }
+        //}
+
+        //public void DeletePatient(TextBox patientName)
+        //{
+        //    string patientFullName = patientName.Text;
+        //    string[] patientNameElements = patientFullName.Split(' ');
+        //    string patientFirstName = patientNameElements[0];
+        //    string patientSecondName = patientNameElements[1];
+        //    try
+        //    {
+        //        var context = new DBApplicationContext();
+        //        var preExPatient = Repository<EPatient>
+        //                .GetRepo(context)
+        //                .GetFirst(patient => patient.FirstName + patient.SecondName == patientFirstName + patientSecondName);
+        //        if (preExPatient != null)
+        //        {
+        //            Guid patGuid = preExPatient.Key;
+        //            Repository<EPatient>
+        //                .GetRepo(context)
+        //                .Delete(patGuid);
+        //            MessageBox.Show("Patient was deleted!");
+        //        }
+        //        try
+        //        {
+        //            var preExTreatment = Repository<ETreatment>
+        //                .GetRepo(context)
+        //                .GetFirst(treatment => treatment.PatientFirstName + treatment.PatientSecondName == patientFirstName + patientSecondName);
+        //            if (preExTreatment != null)
+        //            {
+        //                Guid treatGuid = preExTreatment.Key;
+        //                Repository<ETreatment>
+        //                    .GetRepo(context)
+        //                    .Delete(treatGuid);
+        //                MessageBox.Show("Patient's treatment was deleted!");
+        //                patientName.Text = String.Empty;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            MessageBox.Show("Failed to delete patient's treatment - \n" + ex);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error occurred - \n" + ex);
+        //    }
+        //}
+
+        ////-----------------------------------------------------------------------------------------------------------------------------------
+
+        //public async void AddPatientKeyToTheForm(TextBox Name, Label label)
+        //{
+        //    try
+        //    {
+        //        string fullName = Name.Text;
+        //        string[] nameParts = fullName.Split(' ');
+        //        string patFirstName = nameParts[0];
+        //        string patSecondName = nameParts[1];
+        //        int patId = Convert.ToInt16(fileOperations.ReadTempJsonId());
+        //        var context = new DBApplicationContext();
+        //        var query = from patient in context.Patients
+        //                    where patient.Id == patId
+        //                    where patient.FirstName == patFirstName
+        //                    where patient.SecondName == patSecondName
+        //                    select new { patient.Key };
+        //        var foundKey = await query.FirstOrDefaultAsync();
+        //        if (foundKey != null)
+        //        {
+        //            label.Text = Convert.ToString(foundKey.Key);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error occurred - \n" + ex);
+        //    }
+        //}
+
+        //public async void AddDoctorKeyToTheForm(TextBox Name, Label label)
+        //{
+        //    try
+        //    {
+        //        string fullName = Name.Text;
+        //        string[] nameParts = fullName.Split(' ');
+        //        string docFirstName = nameParts[0];
+        //        string docSecondName = nameParts[1];
+        //        int patId = Convert.ToInt16(fileOperations.ReadTempJsonId());
+        //        var context = new DBApplicationContext();
+        //        var query = from doctor in context.Doctors
+        //                    where doctor.Id == patId
+        //                    where doctor.FirstName == docFirstName
+        //                    where doctor.SecondName == docSecondName
+        //                    select new { doctor.Key };
+        //        var foundKey = await query.FirstOrDefaultAsync();
+        //        if (foundKey != null)
+        //        {
+        //            label.Text = Convert.ToString(foundKey.Key);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error occurred - \n" + ex);
+        //    }
+        //}
+
+        //public async void AddNurseKeyToTheForm(TextBox Name, Label label)
+        //{
+        //    try
+        //    {
+        //        string fullName = Name.Text;
+        //        string[] nameParts = fullName.Split(' ');
+        //        string nurFirstName = nameParts[0];
+        //        string nurSecondName = nameParts[1];
+        //        int patId = Convert.ToInt16(fileOperations.ReadTempJsonId());
+        //        var context = new DBApplicationContext();
+        //        var query = from nurse in context.Nurses
+        //                    where nurse.Id == patId
+        //                    where nurse.FirstName == nurFirstName
+        //                    where nurse.SecondName == nurSecondName
+        //                    select new { nurse.Key };
+        //        var foundKey = await query.FirstOrDefaultAsync();
+        //        if (foundKey != null)
+        //        {
+        //            label.Text = Convert.ToString(foundKey.Key);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error occurred - \n" + ex);
+        //    }
+        //}
+
+        //public async void AddCleaningManagerKeyToTheForm(TextBox Name, Label label)
+        //{
+        //    try
+        //    {
+        //        string fullName = Name.Text;
+        //        string[] nameParts = fullName.Split(' ');
+        //        string cleanManagerFirstName = nameParts[0];
+        //        string cleanManagerSecondName = nameParts[1];
+        //        int cleanManagerId = Convert.ToInt16(fileOperations.ReadTempJsonId());
+        //        var context = new DBApplicationContext();
+        //        var query = from manager in context.CleaningServiceManagers
+        //                    where manager.Id == cleanManagerId
+        //                    where manager.FirstName == cleanManagerFirstName
+        //                    where manager.SecondName == cleanManagerSecondName
+        //                    select new { manager.Key };
+        //        var foundKey = await query.FirstOrDefaultAsync();
+        //        if (foundKey != null)
+        //        {
+        //            label.Text = Convert.ToString(foundKey.Key);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error occurred - \n" + ex);
+        //    }
+        //}
+
+        //public async void AddCleaningWorkerKeyToTheForm(TextBox Name, Label label)
+        //{
+        //    try
+        //    {
+        //        string fullName = Name.Text;
+        //        string[] nameParts = fullName.Split(' ');
+        //        string cleanWorkerFirstName = nameParts[0];
+        //        string cleanWorkerSecondName = nameParts[1];
+        //        int cleanWorkerId = Convert.ToInt16(fileOperations.ReadTempJsonId());
+        //        var context = new DBApplicationContext();
+        //        var query = from worker in context.CleaningServiceWorkers
+        //                    where worker.Id == cleanWorkerId
+        //                    where worker.FirstName == cleanWorkerFirstName
+        //                    where worker.SecondName == cleanWorkerSecondName
+        //                    select new { worker.Key };
+        //        var foundKey = await query.FirstOrDefaultAsync();
+        //        if (foundKey != null)
+        //        {
+        //            label.Text = Convert.ToString(foundKey.Key);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error occurred - \n" + ex);
+        //    }
+        //}
+
+        ////-----------------------------------------------------------------------------------------------------------------------------------
+
+        //public void SaveTreatmentContent(TextBox treatTxtBx, Label patKeyLab, Label docKeyLab, TextBox patFName, TextBox patSName)
+        //{
+        //    try
+        //    {
+        //        string treatCont = treatTxtBx.Text;
+        //        using (var context = new DBApplicationContext())
+        //        {
+        //            var newTreatment = new ETreatment
+        //            {
+        //                PatientKey = Guid.Parse(patKeyLab.Text),
+        //                DoctorKey = Guid.Parse(docKeyLab.Text),
+        //                PatientFirstName = patFName.Text,
+        //                PatientSecondName = patSName.Text,
+        //                TreatmentContent = treatCont
+        //            };
+        //            Repository<ETreatment>
+        //                .GetRepo(context)
+        //                .Create(newTreatment);
+        //            MessageBox.Show("Treatment successfully submited!");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error occurred - \n" + ex);
+        //    }
+        //}
+
+        ////-----------------------------------------------------------------------------------------------------------------------------------
+
+        //public async Task<string> TreatmentTextAcquire(TextBox patFName, TextBox patSecName)
+        //{
+        //    using (var context = new DBApplicationContext())
+        //    {
+        //        var query = from treatment in context.Treatments
+        //                    where treatment.PatientFirstName == patFName.Text
+        //                    where treatment.PatientSecondName == patSecName.Text
+        //                    select new { treatment.TreatmentContent };
+
+        //        var foundTretment = await query.FirstOrDefaultAsync();
+        //        if (foundTretment != null)
+        //        {
+        //            return foundTretment.TreatmentContent;
+        //        }
+        //        else
+        //        {
+        //            return "No treatment found";
+        //        }
+        //    }
+        //}
+
+        ////-----------------------------------------------------------------------------------------------------------------------------------
+
+        private readonly IFileOperations _fileOperations;
+        private readonly DBApplicationContext _dbContext;
+
+        ////-----------------------------------------------------------------------------------------------------------------------------------
+        // Constructor Injection for Dependencies
+        public DataHelper(IFileOperations fileOperations, DBApplicationContext dbContext)
+        {
+            _fileOperations = fileOperations ?? throw new ArgumentNullException(nameof(fileOperations));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        }
+
+        ////-----------------------------------------------------------------------------------------------------------------------------------
+        // Example method with DI
+        public async Task OnPlacePatientCreation(EPatient newEPatient, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
         {
             try
             {
                 Repository<EPatient>
-                    .GetRepo(dBApplicationContext)
+                    .GetRepo(_dbContext)
                     .Create(newEPatient);
                 MessageBox.Show("Success!");
 
-                await fileOperations.NeedToCloseToOpenPatient(Id, FirstName, SecondName, This);
+                await _fileOperations.NeedToCloseToOpenPatient(Id, FirstName, SecondName, This);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error occurred: " + ex.ToString());
+                MessageBox.Show("Error occurred: " + ex);
                 return;
             }
         }
-        public async Task OnPlaceDoctorCreation(DBApplicationContext dBApplicationContext, EDoctor newEDoctor, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+
+        public async Task OnPlaceDoctorCreation(EDoctor newEDoctor, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
         {
             try
             {
                 Repository<EDoctor>
-                    .GetRepo(dBApplicationContext)
+                    .GetRepo(_dbContext)
                     .Create(newEDoctor);
                 MessageBox.Show("Success!");
 
-                await fileOperations.NeedToCloseToOpenDoctor(Id, FirstName, SecondName, This);
+                await _fileOperations.NeedToCloseToOpenDoctor(Id, FirstName, SecondName, This);
             }
             catch (Exception ex)
             {
@@ -45,17 +470,16 @@ namespace Laboratory_2.Repositories
                 return;
             }
         }
-
-        public async Task OnPlaceNurseCreation(DBApplicationContext dBApplicationContext, ENurse newENurse, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        public async Task OnPlaceNurseCreation(ENurse newENurse, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
         {
             try
             {
                 Repository<ENurse>
-                    .GetRepo(dBApplicationContext)
+                    .GetRepo(_dbContext)
                     .Create(newENurse);
                 MessageBox.Show("Success!");
 
-                await fileOperations.NeedToCloseToOpenNurse(Id, FirstName, SecondName, This);
+                await _fileOperations.NeedToCloseToOpenNurse(Id, FirstName, SecondName, This);
             }
             catch (Exception ex)
             {
@@ -63,17 +487,16 @@ namespace Laboratory_2.Repositories
                 return;
             }
         }
-
-        public async Task OnPlaceCleaningWorkerCreation(DBApplicationContext dBApplicationContext, EPerson newEPerson, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        public async Task OnPlaceCleaningWorkerCreation(EPerson newEPerson, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
         {
             try
             {
                 Repository<EPerson>
-                    .GetRepo(dBApplicationContext)
+                    .GetRepo(_dbContext)
                     .Create(newEPerson);
                 MessageBox.Show("Success!");
 
-                await fileOperations.NeedToCloseToOpenCleaningWorker(Id, FirstName, SecondName, This);
+                await _fileOperations.NeedToCloseToOpenCleaningWorker(Id, FirstName, SecondName, This);
             }
             catch (Exception ex)
             {
@@ -81,17 +504,16 @@ namespace Laboratory_2.Repositories
                 return;
             }
         }
-
-        public async Task OnPlaceCleaningManagerCreation(DBApplicationContext dBApplicationContext, EPerson newEPerson, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
+        public async Task OnPlaceCleaningManagerCreation(EPerson newEPerson, TextBox Id, TextBox FirstName, TextBox SecondName, Form This)
         {
             try
             {
                 Repository<EPerson>
-                    .GetRepo(dBApplicationContext)
+                    .GetRepo(_dbContext)
                     .Create(newEPerson);
                 MessageBox.Show("Success!");
 
-                await fileOperations.NeedToCloseToOpenCleaningManager(Id, FirstName, SecondName, This);
+                await _fileOperations.NeedToCloseToOpenCleaningManager(Id, FirstName, SecondName, This);
             }
             catch (Exception ex)
             {
@@ -100,20 +522,19 @@ namespace Laboratory_2.Repositories
             }
         }
 
-        //-----------------------------------------------------------------------------------------------------------------------------------
+        ////-----------------------------------------------------------------------------------------------------------------------------------
 
         public void AddItemsPatientsListview(ListBox listBox)
         {
             try
             {
-                var context = new DBApplicationContext();
-                var query = from patient in context.Patients
+                var query = from patient in _dbContext.Patients
                             orderby patient.FirstName ascending
                             select new { patient.FirstName, patient.SecondName, patient.Key };
                 foreach (var patient in query)
                 {
-                    listBox.Items.Add(patient.FirstName + " " + patient.SecondName + " " + patient.Key.ToString());
-                } 
+                    listBox.Items.Add($"{patient.FirstName} {patient.SecondName} {patient.Key}");
+                }
             }
             catch (Exception ex)
             {
@@ -125,8 +546,7 @@ namespace Laboratory_2.Repositories
         {
             try
             {
-                var context = new DBApplicationContext();
-                var query = from worker in context.CleaningServiceWorkers
+                var query = from worker in _dbContext.CleaningServiceWorkers
                             orderby worker.FirstName ascending
                             select new { worker.FirstName, worker.SecondName, worker.Key };
                 foreach (var worker in query)
@@ -140,48 +560,37 @@ namespace Laboratory_2.Repositories
             }
         }
 
-        //-----------------------------------------------------------------------------------------------------------------------------------
+        ////-----------------------------------------------------------------------------------------------------------------------------------
 
         public void DeletePatient(TextBox PatientFirstName, TextBox PatientSecondName)
         {
             try
             {
-                var context = new DBApplicationContext();
                 var preExPatient = Repository<EPatient>
-                    .GetRepo(context)
+                    .GetRepo(_dbContext)
                     .GetFirst(patient => patient.FirstName + patient.SecondName == PatientFirstName.Text + PatientSecondName.Text);
                 if (preExPatient != null)
                 {
-                    Guid patGuid = preExPatient.Key;
                     Repository<EPatient>
-                        .GetRepo(context)
-                        .Delete(patGuid);
+                        .GetRepo(_dbContext)
+                        .Delete(preExPatient.Key);
                     MessageBox.Show("Patient was deleted!");
-                }
-                else return;
-                try
-                {
+
                     var preExTreatment = Repository<ETreatment>
-                        .GetRepo(context)
+                        .GetRepo(_dbContext)
                         .GetFirst(treatment => treatment.PatientFirstName + treatment.PatientSecondName == PatientFirstName.Text + PatientSecondName.Text);
                     if (preExTreatment != null)
                     {
-                        Guid treatGuid = preExTreatment.Key;
                         Repository<ETreatment>
-                            .GetRepo(context)
-                            .Delete(treatGuid);
+                            .GetRepo(_dbContext)
+                            .Delete(preExTreatment.Key);
                         MessageBox.Show("Patient's treatment was deleted!");
                     }
-                    else return;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Failed to delete patient's treatment - \n" + ex);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to delete patient - \n" + ex);
+                MessageBox.Show("Error occurred - \n" + ex);
             }
         }
 
@@ -193,28 +602,27 @@ namespace Laboratory_2.Repositories
             string patientSecondName = patientNameElements[1];
             try
             {
-                var context = new DBApplicationContext();
                 var preExPatient = Repository<EPatient>
-                        .GetRepo(context)
+                        .GetRepo(_dbContext)
                         .GetFirst(patient => patient.FirstName + patient.SecondName == patientFirstName + patientSecondName);
                 if (preExPatient != null)
                 {
                     Guid patGuid = preExPatient.Key;
                     Repository<EPatient>
-                        .GetRepo(context)
+                        .GetRepo(_dbContext)
                         .Delete(patGuid);
                     MessageBox.Show("Patient was deleted!");
                 }
                 try
                 {
                     var preExTreatment = Repository<ETreatment>
-                        .GetRepo(context)
+                        .GetRepo(_dbContext)
                         .GetFirst(treatment => treatment.PatientFirstName + treatment.PatientSecondName == patientFirstName + patientSecondName);
                     if (preExTreatment != null)
                     {
                         Guid treatGuid = preExTreatment.Key;
                         Repository<ETreatment>
-                            .GetRepo(context)
+                            .GetRepo(_dbContext)
                             .Delete(treatGuid);
                         MessageBox.Show("Patient's treatment was deleted!");
                         patientName.Text = String.Empty;
@@ -230,8 +638,7 @@ namespace Laboratory_2.Repositories
                 MessageBox.Show("Error occurred - \n" + ex);
             }
         }
-
-        //-----------------------------------------------------------------------------------------------------------------------------------
+        ////-----------------------------------------------------------------------------------------------------------------------------------
 
         public async void AddPatientKeyToTheForm(TextBox Name, Label label)
         {
@@ -241,9 +648,8 @@ namespace Laboratory_2.Repositories
                 string[] nameParts = fullName.Split(' ');
                 string patFirstName = nameParts[0];
                 string patSecondName = nameParts[1];
-                int patId = Convert.ToInt16(fileOperations.ReadTempJsonId());
-                var context = new DBApplicationContext();
-                var query = from patient in context.Patients
+                int patId = Convert.ToInt16(_fileOperations.ReadTempJsonId());
+                var query = from patient in _dbContext.Patients
                             where patient.Id == patId
                             where patient.FirstName == patFirstName
                             where patient.SecondName == patSecondName
@@ -268,9 +674,8 @@ namespace Laboratory_2.Repositories
                 string[] nameParts = fullName.Split(' ');
                 string docFirstName = nameParts[0];
                 string docSecondName = nameParts[1];
-                int patId = Convert.ToInt16(fileOperations.ReadTempJsonId());
-                var context = new DBApplicationContext();
-                var query = from doctor in context.Doctors
+                int patId = Convert.ToInt16(_fileOperations.ReadTempJsonId());
+                var query = from doctor in _dbContext.Doctors
                             where doctor.Id == patId
                             where doctor.FirstName == docFirstName
                             where doctor.SecondName == docSecondName
@@ -295,9 +700,8 @@ namespace Laboratory_2.Repositories
                 string[] nameParts = fullName.Split(' ');
                 string nurFirstName = nameParts[0];
                 string nurSecondName = nameParts[1];
-                int patId = Convert.ToInt16(fileOperations.ReadTempJsonId());
-                var context = new DBApplicationContext();
-                var query = from nurse in context.Nurses
+                int patId = Convert.ToInt16(_fileOperations.ReadTempJsonId());
+                var query = from nurse in _dbContext.Nurses
                             where nurse.Id == patId
                             where nurse.FirstName == nurFirstName
                             where nurse.SecondName == nurSecondName
@@ -322,9 +726,8 @@ namespace Laboratory_2.Repositories
                 string[] nameParts = fullName.Split(' ');
                 string cleanManagerFirstName = nameParts[0];
                 string cleanManagerSecondName = nameParts[1];
-                int cleanManagerId = Convert.ToInt16(fileOperations.ReadTempJsonId());
-                var context = new DBApplicationContext();
-                var query = from manager in context.CleaningServiceManagers
+                int cleanManagerId = Convert.ToInt16(_fileOperations.ReadTempJsonId());
+                var query = from manager in _dbContext.CleaningServiceManagers
                             where manager.Id == cleanManagerId
                             where manager.FirstName == cleanManagerFirstName
                             where manager.SecondName == cleanManagerSecondName
@@ -349,9 +752,8 @@ namespace Laboratory_2.Repositories
                 string[] nameParts = fullName.Split(' ');
                 string cleanWorkerFirstName = nameParts[0];
                 string cleanWorkerSecondName = nameParts[1];
-                int cleanWorkerId = Convert.ToInt16(fileOperations.ReadTempJsonId());
-                var context = new DBApplicationContext();
-                var query = from worker in context.CleaningServiceWorkers
+                int cleanWorkerId = Convert.ToInt16(_fileOperations.ReadTempJsonId());
+                var query = from worker in _dbContext.CleaningServiceWorkers
                             where worker.Id == cleanWorkerId
                             where worker.FirstName == cleanWorkerFirstName
                             where worker.SecondName == cleanWorkerSecondName
@@ -368,14 +770,14 @@ namespace Laboratory_2.Repositories
             }
         }
 
-        //-----------------------------------------------------------------------------------------------------------------------------------
+        ////-----------------------------------------------------------------------------------------------------------------------------------
 
         public void SaveTreatmentContent(TextBox treatTxtBx, Label patKeyLab, Label docKeyLab, TextBox patFName, TextBox patSName)
         {
             try
             {
                 string treatCont = treatTxtBx.Text;
-                using (var context = new DBApplicationContext())
+                using (_dbContext)
                 {
                     var newTreatment = new ETreatment
                     {
@@ -386,7 +788,7 @@ namespace Laboratory_2.Repositories
                         TreatmentContent = treatCont
                     };
                     Repository<ETreatment>
-                        .GetRepo(context)
+                        .GetRepo(_dbContext)
                         .Create(newTreatment);
                     MessageBox.Show("Treatment successfully submited!");
                 }
@@ -397,26 +799,23 @@ namespace Laboratory_2.Repositories
             }
         }
 
-        //-----------------------------------------------------------------------------------------------------------------------------------
-
+        ////-----------------------------------------------------------------------------------------------------------------------------------
         public async Task<string> TreatmentTextAcquire(TextBox patFName, TextBox patSecName)
         {
-            using (var context = new DBApplicationContext())
+            try
             {
-                var query = from treatment in context.Treatments
+                var query = from treatment in _dbContext.Treatments
                             where treatment.PatientFirstName == patFName.Text
                             where treatment.PatientSecondName == patSecName.Text
-                            select new { treatment.TreatmentContent };
+                            select treatment.TreatmentContent;
 
-                var foundTretment = await query.FirstOrDefaultAsync();
-                if (foundTretment != null)
-                {
-                    return foundTretment.TreatmentContent;
-                }
-                else
-                {
-                    return "No treatment found";
-                }
+                var treatmentContent = await query.FirstOrDefaultAsync();
+                return treatmentContent ?? "No treatment found";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error occurred - \n" + ex);
+                return string.Empty;
             }
         }
     }

@@ -9,8 +9,7 @@ namespace Laboratory_2
 {
     public partial class MainPage : MaterialForm, IForm
     {
-        readonly FileOperations fileOperations = new FileOperations();
-        public static MainPage form1Main = new MainPage();
+        private readonly IFileOperations _fileOperations;
 
         //------------------------------------------------------------------------------------------
 
@@ -19,8 +18,10 @@ namespace Laboratory_2
             this.Show();
         }
 
-        public MainPage()
+        public MainPage(IFileOperations fileOperations)
         {
+            _fileOperations = fileOperations ?? throw new ArgumentNullException(nameof(fileOperations));
+
             InitializeComponent();
 
             var materialSkinManager = MaterialSkinManager.Instance;
@@ -34,10 +35,14 @@ namespace Laboratory_2
                 );
         }
 
+        public MainPage()
+        {
+        }
+
         private async void Form1_Load(object sender, EventArgs e)
         {
-            await fileOperations.DataBaseCreation();
-            await fileOperations.DatabaseSubfolders();
+            await _fileOperations.DataBaseCreation();
+            await _fileOperations.DataBaseSubFolders();
         }
 
         private void PatientBtn_Click(object sender, EventArgs e)

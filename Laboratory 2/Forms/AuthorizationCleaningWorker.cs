@@ -10,16 +10,21 @@ namespace Laboratory_2
 {
     public partial class AuthorizationCleaningWorker : MaterialForm, IForm
     {
-        readonly FileOperations fileOperations = new FileOperations();
-        readonly DataHelper dataHelper = new DataHelper();
+        private readonly IFileOperations _fileOperations;
+        private readonly DataHelper _dataHelper;
+        private readonly DBApplicationContext _dbContext;
 
         public void ShowForm()
         {
-            this.Show();
+            Show();
         }
 
-        public AuthorizationCleaningWorker()
+        public AuthorizationCleaningWorker(IFileOperations fileOperations, DataHelper dataHelper, DBApplicationContext dbContext)
         {
+            _fileOperations = fileOperations ?? throw new ArgumentNullException(nameof(fileOperations));
+            _dataHelper = dataHelper ?? throw new ArgumentNullException(nameof(dataHelper));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+
             InitializeComponent();
 
             var materialSkinManager = MaterialSkinManager.Instance;
@@ -33,6 +38,10 @@ namespace Laboratory_2
                 );
         }
 
+        public AuthorizationCleaningWorker()
+        {
+        }
+
         private void AuthorizationCleaningWorker_Load(object sender, EventArgs e)
         {
 
@@ -40,18 +49,18 @@ namespace Laboratory_2
 
         private void BackBtn_Click(object sender, EventArgs e)
         {
-            Hide();
-            MainPage.form1Main.Show();
+            IForm form = FormFactory.CreateForm("MainPage");
+            form.ShowForm();
+            Close();
         }
 
         private async void SignBtn_Click(object sender, EventArgs e)
         {
             try
             {
-                var context = new DBApplicationContext();
                 var newCleaningWorker = new ECleaningServiceWorker(Convert.ToInt32(IdTxtBox.Text), FirstNameTxtBox.Text, SecondNameTxtBox.Text);
                 var preExCleaningWorker = Repository<ECleaningServiceWorker>
-                    .GetRepo(context)
+                    .GetRepo(_dbContext)
                     .GetFirst(CleaningWorker => CleaningWorker.Id == newCleaningWorker.Id);
                 if (preExCleaningWorker != null)
                 {
@@ -59,23 +68,23 @@ namespace Laboratory_2
                     if (msBoxResult == DialogResult.Yes)
                     {
                         var newPreExCleaningWorker = Repository<ECleaningServiceWorker>
-                            .GetRepo(context)
+                            .GetRepo(_dbContext)
                             .GetFirst(CleaningWorker => CleaningWorker.Id == Convert.ToInt32(IdTxtBox.Text));
 
                         MessageBox.Show($"Congratulations!\n" + newPreExCleaningWorker.SecondName + " " + preExCleaningWorker.FirstName + " managed to sing in!");
-                        await fileOperations.NeedToCloseToOpenCleaningWorker(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        await _fileOperations.NeedToCloseToOpenCleaningWorker(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                         IForm form = FormFactory.CreateForm("CleaningWorker");
                         form.ShowForm();
-                        this.Close();
+                        Close();
                     }
                     else return;
                 }
                 else
                 {
-                    await dataHelper.OnPlaceCleaningWorkerCreation(context, newCleaningWorker, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    await _dataHelper.OnPlaceCleaningWorkerCreation(newCleaningWorker, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                     IForm form = FormFactory.CreateForm("CleaningWorker");
                     form.ShowForm();
-                    this.Close();
+                    Close();
                 }
             }
             catch (Exception ex)
@@ -88,30 +97,29 @@ namespace Laboratory_2
         {
             try
             {
-                var context = new DBApplicationContext();
                 var newCleaningWorker = new ECleaningServiceWorker(Convert.ToInt32(IdTxtBox.Text), FirstNameTxtBox.Text, SecondNameTxtBox.Text);
                 var preExCleaningWorker = Repository<ECleaningServiceWorker>
-                    .GetRepo(context)
+                    .GetRepo(_dbContext)
                     .GetFirst(person => person.Id == Convert.ToInt32(IdTxtBox.Text));
 
                 if ((preExCleaningWorker != null) && (preExCleaningWorker.FirstName == FirstNameTxtBox.Text) && (preExCleaningWorker.SecondName == SecondNameTxtBox.Text)
                     && (preExCleaningWorker.Id == Convert.ToInt32(IdTxtBox.Text)))
                 {
                     MessageBox.Show($"Congratulations!\n" + preExCleaningWorker.SecondName + " " + preExCleaningWorker.FirstName + " managed to sing in!");
-                    await fileOperations.NeedToCloseToOpenCleaningWorker(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                    await _fileOperations.NeedToCloseToOpenCleaningWorker(IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                     IForm form = FormFactory.CreateForm("CleaningWorker");
                     form.ShowForm();
-                    this.Close();
+                    Close();
                 }
                 else
                 {
                     var msBoxResult = MessageBox.Show("Would you like to sign up?", "Such Cleaning Worker doesn't exist!", MessageBoxButtons.OKCancel);
                     if (msBoxResult == DialogResult.OK)
                     {
-                        await dataHelper.OnPlaceCleaningWorkerCreation(context, newCleaningWorker, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
+                        await _dataHelper.OnPlaceCleaningWorkerCreation(newCleaningWorker, IdTxtBox, FirstNameTxtBox, SecondNameTxtBox, this);
                         IForm form = FormFactory.CreateForm("CleaningWorker");
                         form.ShowForm();
-                        this.Close();
+                        Close();
                     }
                     else return;
                 }

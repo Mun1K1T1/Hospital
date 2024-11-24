@@ -17,6 +17,7 @@ namespace Laboratory_2.Repositories
         public const string patientSubPath = @"C:\\DataBase\PatientData\";
         public const string cleaningWorkerSubPath = @"C:\\DataBase\CleaningWorkerData\";
         public const string cleaningManagerSubPath = @"C:\\DataBase\CleaningManagerData\";
+        public const string cleaningTaskSubPath = @"C:\\DataBase\CleaningTaskData\";
         public const string treatSubPath = @"C:\\DataBase\TreatmentData\";
         public const string tempSubPath = @"C:\\DataBase\TempData\";
         //-----------------------------------------------------------------------------------------------------------------------------------
@@ -40,7 +41,7 @@ namespace Laboratory_2.Repositories
 
         //-----------------------------------------------------------------------------------------------------------------------------------
 
-        public async Task DatabaseSubfolders()
+        public async Task DataBaseSubFolders()
         {
             await Task.Run(() =>
             {
